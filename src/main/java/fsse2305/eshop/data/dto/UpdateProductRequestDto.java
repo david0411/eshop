@@ -1,33 +1,26 @@
 package fsse2305.eshop.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fsse2305.eshop.data.AllProductResponseData;
 
 import java.math.BigDecimal;
 
-public class AllProductResponseDto {
-
-      private int pid;
+public class UpdateProductRequestDto {
+      private Integer pid;
       private String name;
+      private String description;
       @JsonProperty("image_url")
       private String imageUrl;
       private BigDecimal price;
-      @JsonProperty("has_stock")
+      @JsonProperty("stock")
+      private Integer stockQty;
+      @JsonProperty("image_url")
       private boolean hasStock;
 
-      public AllProductResponseDto(AllProductResponseData allProductResponseData) {
-            this.pid = allProductResponseData.getPid();
-            this.name = allProductResponseData.getName();
-            this.imageUrl = allProductResponseData.getImageUrl();
-            this.price = allProductResponseData.price;
-            this.hasStock = allProductResponseData.isHasStock();
-      }
-
-      public int getPid() {
+      public Integer getPid() {
             return pid;
       }
 
-      public void setPid(int pid) {
+      public void setPid(Integer pid) {
             this.pid = pid;
       }
 
@@ -37,6 +30,14 @@ public class AllProductResponseDto {
 
       public void setName(String name) {
             this.name = name;
+      }
+
+      public String getDescription() {
+            return description;
+      }
+
+      public void setDescription(String description) {
+            this.description = description;
       }
 
       public String getImageUrl() {
@@ -53,6 +54,14 @@ public class AllProductResponseDto {
 
       public void setPrice(BigDecimal price) {
             this.price = price;
+      }
+
+      public Integer getStockQty() {
+            return stockQty;
+      }
+
+      public void setStockQty(Integer stockQty) {
+            this.stockQty = stockQty;
       }
 
       public boolean isHasStock() {

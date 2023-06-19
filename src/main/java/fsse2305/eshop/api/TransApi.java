@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TransApi {
+/*
+      @PostMapping("/transaction/prepare")
 
-    @PostMapping("/transaction/prepare")
+      @GetMapping("/transaction/{tid}")
 
-    @GetMapping("/transaction/{tid}")
+      @PatchMapping("/transaction/{tid}/pay")
 
-    @PatchMapping("/transaction/{tid}/pay")
+      @PatchMapping("/transaction/{tid}/finish")
 
-    @PatchMapping("/transaction/{tid}/finish")
-
-
+*/
 }

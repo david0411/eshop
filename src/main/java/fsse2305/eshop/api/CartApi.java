@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class CartApi {
 
-    @PutMapping("/cart/{pid}/{quantity}")
+      /*@PutMapping("/cart/{pid}/{quantity}")
 
-    @GetMapping("/cart")
+      @GetMapping("/cart")
 
-    @PatchMapping("/cart/{pid}/{quantity}")
+      @PatchMapping("/cart/{pid}/{quantity}")
 
-    @DeleteMapping("/cart/{pid}")
+      @DeleteMapping("/cart/{pid}")*/
 }

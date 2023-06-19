@@ -1,30 +1,50 @@
 package fsse2305.eshop.api;
 
 import fsse2305.eshop.data.AllProductResponseData;
+import fsse2305.eshop.data.UpdateProductRequestData;
 import fsse2305.eshop.data.dto.AllProductResponseDto;
 import fsse2305.eshop.data.dto.ProductByIdResponseDto;
+import fsse2305.eshop.data.dto.UpdateProductRequestDto;
+import fsse2305.eshop.data.dto.UpdateProductResponseDto;
 import fsse2305.eshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ProductApi {
 
-    public ProductService productService;
-    @Autowired
-    public ProductApi(ProductService productService)    {
-        this.productService = productService;
-    }
-    @GetMapping("/public/product")
-    public AllProductResponseDto getAllProduct()   {
-        AllProductResponseData allProductResponseData = productService.getAllProduct();
-    }
+      public ProductService productService;
+      public UserApi userApi;
+      @Autowired
+      public ProductApi(ProductService productService, UserApi userApi)    {
+            this.productService = productService;
+            this.userApi = userApi;
+      }
+      @GetMapping("/public/product")
+      public List<AllProductResponseDto> getAllProduct()   {
+            List<AllProductResponseDto> allProductResponseDtoList = new ArrayList<>();
+            List<AllProductResponseData> allProductResponseDataList = productService.getAllProduct();
+            for(AllProductResponseData allProductResponseData: allProductResponseDataList)      {
+                  allProductResponseDtoList.add(new AllProductResponseDto(allProductResponseData));
+            }
+            return allProductResponseDtoList;
+      }
 
-    @GetMapping("/public/product/{id}")
-    public ProductByIdResponseDto getProductById(@PathVariable int id)  {
+      @GetMapping("/public/product/{id}")
+      public ProductByIdResponseDto getProductById(@PathVariable Integer id) throws Exception {
+            return new ProductByIdResponseDto(productService.getProductById(id));
+      }
 
-    }
-
+      @PutMapping("admin/product/{id}")
+      public UpdateProductResponseDto updateProductById(@PathVariable Integer id, @RequestBody UpdateProductRequestDto updateProductRequestDto, JwtAuthenticationToken
+                jwtToken) throws Exception    {
+            if (userApi.getMyUserDetails(jwtToken) != null) {
+                  return new UpdateProductResponseDto(productService.updateProductById(id, new UpdateProductRequestData(updateProductRequestDto)));
+            }
+            return null;
+      }
 }

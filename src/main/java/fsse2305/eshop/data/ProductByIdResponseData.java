@@ -1,27 +1,24 @@
-package fsse2305.eshop.data.dto;
+package fsse2305.eshop.data;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import fsse2305.eshop.data.ProductByIdResponseData;
+import fsse2305.eshop.data.entity.ProductEntity;
 
 import java.math.BigDecimal;
 
-public class ProductByIdResponseDto {
+public class ProductByIdResponseData {
       private int pid;
       private String name;
       private String description;
-      @JsonProperty("image_url")
       private String imageUrl;
       private BigDecimal price;
-      @JsonProperty("stock")
       private Integer stockQty;
 
-      public ProductByIdResponseDto(ProductByIdResponseData productByIdResponseData)      {
-            this.pid = productByIdResponseData.getPid();
-            this.name = productByIdResponseData.getName();
-            this.description = productByIdResponseData.getDescription();
-            this.imageUrl = productByIdResponseData.getImageUrl();
-            this.price = productByIdResponseData.getPrice();
-            this.stockQty = productByIdResponseData.getStockQty();
+      public ProductByIdResponseData(ProductEntity productEntity) {
+            this.pid = productEntity.getPid();
+            this.name = productEntity.getName();
+            this.description = productEntity.getDescription();
+            this.imageUrl = productEntity.getImageUrl();
+            this.price = productEntity.getPrice();
+            this.stockQty = productEntity.getStockQty();
       }
 
       public int getPid() {

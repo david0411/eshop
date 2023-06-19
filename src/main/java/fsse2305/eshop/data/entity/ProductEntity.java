@@ -1,14 +1,28 @@
 package fsse2305.eshop.data.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "product")
 public class ProductEntity {
+    @Id
     private Integer pid;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String description;
+    @Column(nullable = false)
     private String imageUrl;
+    @Column(nullable = false)
     private BigDecimal price;
+    @Column(nullable = false)
     private Integer stockQty;
+    @Column(nullable = false)
     private boolean hasStock;
 
     public Integer getPid() {

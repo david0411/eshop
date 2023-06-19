@@ -1,34 +1,32 @@
-package fsse2305.eshop.data.dto;
+package fsse2305.eshop.data;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import fsse2305.eshop.data.ProductByIdResponseData;
+import fsse2305.eshop.data.entity.ProductEntity;
 
 import java.math.BigDecimal;
 
-public class ProductByIdResponseDto {
-      private int pid;
+public class UpdateProductResponseData {
+      private Integer pid;
       private String name;
       private String description;
-      @JsonProperty("image_url")
       private String imageUrl;
       private BigDecimal price;
-      @JsonProperty("stock")
       private Integer stockQty;
+      private boolean hasStock;
 
-      public ProductByIdResponseDto(ProductByIdResponseData productByIdResponseData)      {
-            this.pid = productByIdResponseData.getPid();
-            this.name = productByIdResponseData.getName();
-            this.description = productByIdResponseData.getDescription();
-            this.imageUrl = productByIdResponseData.getImageUrl();
-            this.price = productByIdResponseData.getPrice();
-            this.stockQty = productByIdResponseData.getStockQty();
-      }
+public  UpdateProductResponseData(ProductEntity productEntity){
+      this.pid = productEntity.getPid();
+      this.name = productEntity.getName();
+      this.description = productEntity.getDescription();
+      this.imageUrl = productEntity.getImageUrl();
+      this.price = productEntity.getPrice();
+      this.stockQty = productEntity.getStockQty();
+}
 
-      public int getPid() {
+      public Integer getPid() {
             return pid;
       }
 
-      public void setPid(int pid) {
+      public void setPid(Integer pid) {
             this.pid = pid;
       }
 
@@ -70,5 +68,13 @@ public class ProductByIdResponseDto {
 
       public void setStockQty(Integer stockQty) {
             this.stockQty = stockQty;
+      }
+
+      public boolean isHasStock() {
+            return hasStock;
+      }
+
+      public void setHasStock(boolean hasStock) {
+            this.hasStock = hasStock;
       }
 }

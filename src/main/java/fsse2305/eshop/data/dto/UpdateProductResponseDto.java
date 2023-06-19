@@ -1,12 +1,12 @@
 package fsse2305.eshop.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fsse2305.eshop.data.ProductByIdResponseData;
+import fsse2305.eshop.data.UpdateProductResponseData;
 
 import java.math.BigDecimal;
 
-public class ProductByIdResponseDto {
-      private int pid;
+public class UpdateProductResponseDto {
+      private Integer pid;
       private String name;
       private String description;
       @JsonProperty("image_url")
@@ -14,21 +14,23 @@ public class ProductByIdResponseDto {
       private BigDecimal price;
       @JsonProperty("stock")
       private Integer stockQty;
+      @JsonProperty("image_url")
+      private boolean hasStock;
 
-      public ProductByIdResponseDto(ProductByIdResponseData productByIdResponseData)      {
-            this.pid = productByIdResponseData.getPid();
-            this.name = productByIdResponseData.getName();
-            this.description = productByIdResponseData.getDescription();
-            this.imageUrl = productByIdResponseData.getImageUrl();
-            this.price = productByIdResponseData.getPrice();
-            this.stockQty = productByIdResponseData.getStockQty();
+      public UpdateProductResponseDto(UpdateProductResponseData updateProductResponseData)      {
+            this.pid= updateProductResponseData.getPid();
+            this.name = updateProductResponseData.getName();
+            this.description = updateProductResponseData.getDescription();
+            this.imageUrl = updateProductResponseData.getImageUrl();
+            this.price = updateProductResponseData.getPrice();
+            this.stockQty = updateProductResponseData.getStockQty();
       }
 
-      public int getPid() {
+      public Integer getPid() {
             return pid;
       }
 
-      public void setPid(int pid) {
+      public void setPid(Integer pid) {
             this.pid = pid;
       }
 
@@ -70,5 +72,13 @@ public class ProductByIdResponseDto {
 
       public void setStockQty(Integer stockQty) {
             this.stockQty = stockQty;
+      }
+
+      public boolean isHasStock() {
+            return hasStock;
+      }
+
+      public void setHasStock(boolean hasStock) {
+            this.hasStock = hasStock;
       }
 }
