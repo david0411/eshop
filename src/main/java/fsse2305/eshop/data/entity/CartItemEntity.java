@@ -1,5 +1,6 @@
 package fsse2305.eshop.data.entity;
 
+import fsse2305.eshop.UserEntity;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,10 +19,26 @@ public class CartItemEntity {
     @Column(nullable = false)
     private Integer quantity;
 
-
     public CartItemEntity() {
 
     }
+
+    public ProductEntity getProductEntity() {
+        return productEntity;
+    }
+
+    public void setProductEntity(ProductEntity productEntity) {
+        this.productEntity = productEntity;
+    }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+
     public Integer getCid() {
         return cid;
     }
@@ -36,5 +53,13 @@ public class CartItemEntity {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Integer getUid() {
+        return userEntity.getUid();
+    }
+
+    public Integer getPid() {
+        return productEntity.getPid();
     }
 }

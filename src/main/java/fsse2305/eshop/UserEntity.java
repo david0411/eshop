@@ -1,5 +1,6 @@
-package fsse2305.eshop.data.entity;
+package fsse2305.eshop;
 
+import fsse2305.eshop.data.entity.CartItemEntity;
 import fsse2305.eshop.user.FirebaseUserData;
 import jakarta.persistence.*;
 
