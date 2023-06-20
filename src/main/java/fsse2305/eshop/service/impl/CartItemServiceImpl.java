@@ -5,6 +5,9 @@ import fsse2305.eshop.data.GetCartItemResponseData;
 import fsse2305.eshop.data.PutCartItemResponseData;
 import fsse2305.eshop.data.UpdateCartItemQtyResponseData;
 import fsse2305.eshop.data.entity.CartItemEntity;
+import fsse2305.eshop.exception.cart.CART_ITEM_EXCEPTION;
+import fsse2305.eshop.exception.cart.CART_ITEM_NOT_FOUND_EXCEPTION;
+import fsse2305.eshop.exception.cart.ITEM_ALREADY_ADDED_EXCEPTION;
 import fsse2305.eshop.repository.CartItemRepository;
 import fsse2305.eshop.service.CartItemService;
 import fsse2305.eshop.service.ProductService;
@@ -36,8 +39,7 @@ public class CartItemServiceImpl implements CartItemService {
             Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
             productService.getProductEntityById(pid);
             if(cartItemRepository.getCartItemByUidAAndPid(uid, pid) != null)    {
-                //item already added exception
-                return null;
+                throw new ITEM_ALREADY_ADDED_EXCEPTION(pid);
             }
             Integer result = cartItemRepository.addItem2Cart(uid, pid, quantity);
             if (result==1) {
@@ -59,14 +61,22 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     public UpdateCartItemQtyResponseData updateCartItemQty(Integer pid, Integer quantity, FirebaseUserData firebaseUserData) throws Exception {
-        Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
-        Integer result = cartItemRepository.updateCartItemByPid(uid, pid, quantity);
-        if(result > 0)  {
-            CartItemEntity cartItemEntity = cartItemRepository.getCartItemByUidAAndPid(uid, pid);
-            return new UpdateCartItemQtyResponseData(productService.getProductEntityById(cartItemEntity.getPid()), cartItemEntity);
+        try {
+            Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
+            productService.getProductEntityById(pid);
+            if(cartItemRepository.getCartItemByUidAAndPid(uid, pid) == null)    {
+                throw new CART_ITEM_NOT_FOUND_EXCEPTION(pid);
+            }
+            Integer result = cartItemRepository.updateCartItemByPid(uid, pid, quantity);
+            if(result > 0)  {
+                CartItemEntity cartItemEntity = cartItemRepository.getCartItemByUidAAndPid(uid, pid);
+                return new UpdateCartItemQtyResponseData(productService.getProductEntityById(cartItemEntity.getPid()), cartItemEntity);
+            }
+            throw new CART_ITEM_EXCEPTION();
+        }   catch (Exception e) {
+            logger.warn(e.toString());
+            throw e;
         }
-        //cart item not find exception
-        return null;
     }
 
     public DeleteCartItemResponseData deleteCartItem(Integer pid, FirebaseUserData firebaseUserData) throws Exception   {
@@ -74,8 +84,7 @@ public class CartItemServiceImpl implements CartItemService {
             Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
             productService.getProductEntityById(pid);
             if(cartItemRepository.getCartItemByUidAAndPid(uid, pid) == null)    {
-                //item not in cart exception
-                return null;
+                throw new CART_ITEM_NOT_FOUND_EXCEPTION(pid);
             }
             Integer result = cartItemRepository.deleteCartItemByPid(uid, pid);
             if (result==1) {
@@ -86,6 +95,5 @@ public class CartItemServiceImpl implements CartItemService {
             logger.warn(e.toString());
             throw e;
         }
-
     }
 }
