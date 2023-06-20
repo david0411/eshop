@@ -33,7 +33,6 @@ public class CartItemServiceImpl implements CartItemService {
         this.cartItemRepository = cartItemRepository;
     }
 
-    @Override
     public PutCartItemResponseData putCartItem(Integer pid, Integer quantity, FirebaseUserData firebaseUserData) throws Exception {
         try {
             Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();

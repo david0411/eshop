@@ -1,6 +1,6 @@
 package fsse2305.eshop.service.impl;
 
-import fsse2305.eshop.ProductRepository;
+import fsse2305.eshop.repository.ProductRepository;
 import fsse2305.eshop.data.AllProductResponseData;
 import fsse2305.eshop.data.ProductByIdResponseData;
 import fsse2305.eshop.data.UpdateProductRequestData;

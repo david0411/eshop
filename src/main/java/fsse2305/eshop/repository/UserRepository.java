@@ -1,5 +1,6 @@
-package fsse2305.eshop;
+package fsse2305.eshop.repository;
 
+import fsse2305.eshop.data.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

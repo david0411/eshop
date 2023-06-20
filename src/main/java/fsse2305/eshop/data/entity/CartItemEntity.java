@@ -1,6 +1,5 @@
 package fsse2305.eshop.data.entity;
 
-import fsse2305.eshop.UserEntity;
 import jakarta.persistence.*;
 
 @Entity

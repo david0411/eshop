@@ -1,4 +1,4 @@
-package fsse2305.eshop;
+package fsse2305.eshop.repository;
 
 import fsse2305.eshop.data.entity.ProductEntity;
 import org.springframework.data.jpa.repository.Query;

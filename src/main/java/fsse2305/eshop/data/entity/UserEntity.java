@@ -1,4 +1,4 @@
-package fsse2305.eshop;
+package fsse2305.eshop.data.entity;
 
 import fsse2305.eshop.data.entity.CartItemEntity;
 import fsse2305.eshop.user.FirebaseUserData;

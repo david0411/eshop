@@ -1,7 +1,7 @@
 package fsse2305.eshop.service.impl;
 
-import fsse2305.eshop.UserEntity;
-import fsse2305.eshop.UserRepository;
+import fsse2305.eshop.data.entity.UserEntity;
+import fsse2305.eshop.repository.UserRepository;
 import fsse2305.eshop.service.UserService;
 import fsse2305.eshop.user.FirebaseUserData;
 import org.springframework.stereotype.Service;
