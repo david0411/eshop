@@ -1,5 +1,6 @@
 package fsse2305.eshop.service.impl;
 
+import fsse2305.eshop.data.DeleteCartItemResponseData;
 import fsse2305.eshop.data.GetCartItemResponseData;
 import fsse2305.eshop.data.PutCartItemResponseData;
 import fsse2305.eshop.data.UpdateCartItemQtyResponseData;
@@ -66,5 +67,25 @@ public class CartItemServiceImpl implements CartItemService {
         }
         //cart item not find exception
         return null;
+    }
+
+    public DeleteCartItemResponseData deleteCartItem(Integer pid, FirebaseUserData firebaseUserData) throws Exception   {
+        try {
+            Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
+            productService.getProductEntityById(pid);
+            if(cartItemRepository.getCartItemByUidAAndPid(uid, pid) == null)    {
+                //item not in cart exception
+                return null;
+            }
+            Integer result = cartItemRepository.deleteCartItemByPid(uid, pid);
+            if (result==1) {
+                return new DeleteCartItemResponseData("SUCCESS");
+            }
+            return new DeleteCartItemResponseData("FAIL");
+        } catch (Exception e)   {
+            logger.warn(e.toString());
+            throw e;
+        }
+
     }
 }

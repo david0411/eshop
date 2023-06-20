@@ -31,4 +31,11 @@ public interface CartItemRepository extends CrudRepository<CartItemEntity, Integ
             "where pid = :pid " +
             "and uid = :uid", nativeQuery = true)
     Integer updateCartItemByPid(Integer uid, Integer pid,Integer quantity);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from cart_item " +
+            "where pid = :pid " +
+            "and uid = :uid", nativeQuery = true)
+    Integer deleteCartItemByPid(Integer uid, Integer pid);
 }
