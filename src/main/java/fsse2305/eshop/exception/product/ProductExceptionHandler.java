@@ -1,4 +1,4 @@
-package fsse2305.eshop.exception;
+package fsse2305.eshop.exception.product;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

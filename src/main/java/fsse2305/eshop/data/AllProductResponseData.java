@@ -11,12 +11,12 @@ public class AllProductResponseData {
       public BigDecimal price;
       public boolean hasStock;
 
-      public AllProductResponseData(ProductEntity productEntities)      {
-            this.pid = productEntities.getPid();
-            this.name = productEntities.getName();
-            this.imageUrl = productEntities.getImageUrl();
-            this.price = productEntities.getPrice();
-            this.hasStock = productEntities.isHasStock();
+      public AllProductResponseData(ProductEntity productEntity)      {
+            this.pid = productEntity.getPid();
+            this.name = productEntity.getName();
+            this.imageUrl = productEntity.getImageUrl();
+            this.price = productEntity.getPrice();
+            setHasStock(productEntity.getStockQty());
       }
 
       public int getPid() {
@@ -57,5 +57,9 @@ public class AllProductResponseData {
 
       public void setHasStock(boolean hasStock) {
             this.hasStock = hasStock;
+      }
+
+      public void setHasStock(Integer stockQty) {
+            this.hasStock = stockQty > 0;
       }
 }

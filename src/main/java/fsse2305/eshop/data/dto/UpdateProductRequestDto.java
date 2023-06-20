@@ -14,7 +14,6 @@ public class UpdateProductRequestDto {
       @JsonProperty("stock")
       private Integer stockQty;
       @JsonProperty("image_url")
-      private boolean hasStock;
 
       public Integer getPid() {
             return pid;
@@ -62,13 +61,5 @@ public class UpdateProductRequestDto {
 
       public void setStockQty(Integer stockQty) {
             this.stockQty = stockQty;
-      }
-
-      public boolean isHasStock() {
-            return hasStock;
-      }
-
-      public void setHasStock(boolean hasStock) {
-            this.hasStock = hasStock;
       }
 }

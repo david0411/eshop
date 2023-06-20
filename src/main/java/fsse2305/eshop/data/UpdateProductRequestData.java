@@ -11,7 +11,6 @@ public class UpdateProductRequestData {
       private String imageUrl;
       private BigDecimal price;
       private Integer stockQty;
-      private boolean hasStock;
 
       public UpdateProductRequestData(UpdateProductRequestDto updateProductRequestDto)   {
             this.pid = updateProductRequestDto.getPid();
@@ -68,13 +67,5 @@ public class UpdateProductRequestData {
 
       public void setStockQty(Integer stockQty) {
             this.stockQty = stockQty;
-      }
-
-      public boolean isHasStock() {
-            return hasStock;
-      }
-
-      public void setHasStock(boolean hasStock) {
-            this.hasStock = hasStock;
       }
 }

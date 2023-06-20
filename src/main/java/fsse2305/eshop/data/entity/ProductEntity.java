@@ -1,29 +1,30 @@
 package fsse2305.eshop.data.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
 public class ProductEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer pid;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
     private String description;
-    @Column(nullable = false)
+    @Column(name = "image_url")
     private String imageUrl;
     @Column(nullable = false)
     private BigDecimal price;
     @Column(nullable = false)
     private Integer stockQty;
-    @Column(nullable = false)
-    private boolean hasStock;
+    @OneToMany
+    @JoinColumn(name = "pid")
+    private List<CartItemEntity> cartItemEntityList = new ArrayList<>();
+
 
     public Integer getPid() {
         return pid;
@@ -73,11 +74,4 @@ public class ProductEntity {
         this.stockQty = stockQty;
     }
 
-    public boolean isHasStock() {
-        return hasStock;
-    }
-
-    public void setHasStock(boolean hasStock) {
-        this.hasStock = hasStock;
-    }
 }

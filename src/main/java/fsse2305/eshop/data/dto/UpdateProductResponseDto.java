@@ -14,8 +14,6 @@ public class UpdateProductResponseDto {
       private BigDecimal price;
       @JsonProperty("stock")
       private Integer stockQty;
-      @JsonProperty("image_url")
-      private boolean hasStock;
 
       public UpdateProductResponseDto(UpdateProductResponseData updateProductResponseData)      {
             this.pid= updateProductResponseData.getPid();
@@ -72,13 +70,5 @@ public class UpdateProductResponseDto {
 
       public void setStockQty(Integer stockQty) {
             this.stockQty = stockQty;
-      }
-
-      public boolean isHasStock() {
-            return hasStock;
-      }
-
-      public void setHasStock(boolean hasStock) {
-            this.hasStock = hasStock;
       }
 }
