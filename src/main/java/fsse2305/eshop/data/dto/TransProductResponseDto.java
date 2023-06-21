@@ -1,6 +1,7 @@
 package fsse2305.eshop.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fsse2305.eshop.data.TransProductResponseData;
 
 import java.math.BigDecimal;
 
@@ -11,7 +12,11 @@ public class TransProductResponseDto {
     private Integer quantity;
     private BigDecimal subtotal;
 
-    public TransProductResponseDto() {
+    public TransProductResponseDto(TransProductResponseData transProductResponseData, ProductResponseDto productResponseDto) {
+        this.tpid = transProductResponseData.getTpid();
+        this.productResponseDto = productResponseDto;
+        this.quantity = transProductResponseData.getQuantity();
+        this.subtotal = transProductResponseData.getSubtotal();
     }
 
     public Integer getTpid() {

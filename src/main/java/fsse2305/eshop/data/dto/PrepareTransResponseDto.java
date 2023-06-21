@@ -1,6 +1,7 @@
 package fsse2305.eshop.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fsse2305.eshop.data.PrepareTransResponseData;
 import fsse2305.eshop.data.transStatus;
 
 import java.math.BigDecimal;
@@ -17,7 +18,13 @@ public class PrepareTransResponseDto {
     @JsonProperty("items")
     private List<TransProductResponseDto> transProductResponseDtoList;
 
-    public PrepareTransResponseDto() {
+    public PrepareTransResponseDto(PrepareTransResponseData prepareTransResponseData, List<TransProductResponseDto> transProductResponseDtoList)   {
+        this.tid = prepareTransResponseData.getTid();
+        this.buyerUid = prepareTransResponseData.getBuyerUid();
+        this.datetime = prepareTransResponseData.getDatetime();
+        this.status = prepareTransResponseData.getStatus();
+        this.total = prepareTransResponseData.getTotal();
+        this.transProductResponseDtoList = transProductResponseDtoList;
     }
 
     public Integer getTid() {
