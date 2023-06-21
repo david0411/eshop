@@ -1,6 +1,5 @@
 package fsse2305.eshop.data;
 
-import fsse2305.eshop.data.entity.CartItemEntity;
 import fsse2305.eshop.data.entity.ProductEntity;
 
 import java.math.BigDecimal;
@@ -13,12 +12,12 @@ public class UpdateCartItemQtyResponseData {
     private Integer cartQty;
     private Integer stockQty;
 
-    public UpdateCartItemQtyResponseData(ProductEntity productEntity, CartItemEntity cartItemEntity) {
+    public UpdateCartItemQtyResponseData(ProductEntity productEntity, Integer quantity) {
         this.pid = productEntity.getPid();
         this.name = productEntity.getName();
         this.imageUrl = productEntity.getImageUrl();
         this.price = productEntity.getPrice();
-        this.cartQty = cartItemEntity.getQuantity();
+        this.cartQty = quantity;
         this.stockQty = productEntity.getStockQty();
     }
 
