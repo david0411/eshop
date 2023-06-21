@@ -1,9 +1,6 @@
 package fsse2305.eshop.service.impl;
 
-import fsse2305.eshop.data.data.GetTransResponseData;
-import fsse2305.eshop.data.data.PrepareTransResponseData;
-import fsse2305.eshop.data.data.ProductResponseData;
-import fsse2305.eshop.data.data.TransProductResponseData;
+import fsse2305.eshop.data.data.*;
 import fsse2305.eshop.data.entity.CartItemEntity;
 import fsse2305.eshop.data.entity.ProductEntity;
 import fsse2305.eshop.data.entity.TransProductEntity;
@@ -53,7 +50,7 @@ public class TransServiceImpl implements TransService {
                 return null;
             }
             Timestamp transactionTime = Timestamp.valueOf(LocalDateTime.now());
-            Integer transResult = transRepository.createTransaction(uid, transactionTime, TransStatus.PREPARE);
+            Integer transResult = transRepository.createTransaction(uid, transactionTime, TransStatus.PREPARE.getCode());
             TransactionEntity transactionEntity = transRepository.getTransactionEntityByTransTime(transactionTime);
             List<TransProductResponseData> transProductResponseDataList = new ArrayList<>();
             for (CartItemEntity cartItemEntity: cartItemService.getCartItemByUid(uid))  {
@@ -77,7 +74,7 @@ public class TransServiceImpl implements TransService {
             }
             transactionEntity.setTotal(totalAmt);
             transRepository.save(transactionEntity);
-            cartItemService.deleteCartItemByUid(uid);
+
             return new PrepareTransResponseData(transactionEntity, transProductResponseDataList);
         }   catch (Exception e) {
             logger.warn(e.toString());
@@ -96,5 +93,41 @@ public class TransServiceImpl implements TransService {
             transProductResponseDataList.add(transProductResponseData);
         }
         return new GetTransResponseData(transactionEntity, transProductResponseDataList);
+    }
+
+    public PayTransResponseData payTrans(Integer tid, FirebaseUserData firebaseUserData) throws Exception {
+        Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
+        Integer payResult = transRepository.updateTransStatusByUidAndTid(uid, tid, TransStatus.PAY.getCode());
+        if(payResult==1)   {
+            for(TransProductEntity transProductEntity: transProductRepository.getTransactionEntityByTid(tid))   {
+                Integer deductProductResult = productService.deductProductQtyById(transProductEntity.getPid(), transProductEntity.getQuantity());
+                if(deductProductResult==1)  {
+                    Integer processResult = transRepository.updateTransStatusByUidAndTid(uid, tid, TransStatus.PROCESSING.getCode());
+                    if(processResult==1)   {
+                        return new PayTransResponseData("SUCCESS");
+                    }
+                }
+            }
+        }
+        return new PayTransResponseData("FAIL");
+    }
+
+    public FinishTransResponseData finishTrans(Integer tid, FirebaseUserData firebaseUserData) {
+        Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
+        Integer result = transRepository.updateTransStatusByUidAndTid(uid, tid, TransStatus.SUCCESS.getCode());
+        if(result==1)   {
+            TransactionEntity transactionEntity = transRepository.getTransactionEntityByUidAndTid(uid, tid);
+            List<TransProductEntity> transProductEntityList = transProductRepository.getTransactionEntityByTid(transactionEntity.getTid());
+            List<TransProductResponseData> transProductResponseDataList = new ArrayList<>();
+            for (TransProductEntity transProductEntity: transProductEntityList)  {
+                ProductResponseData productResponseData = new ProductResponseData(transProductEntity);
+                TransProductResponseData transProductResponseData = new TransProductResponseData(transProductEntity, productResponseData);
+                transProductResponseDataList.add(transProductResponseData);
+            }
+            cartItemService.deleteCartItemByUid(uid);
+            return new FinishTransResponseData(transactionEntity, transProductResponseDataList);
+        }
+        //throw error
+        return null;
     }
 }

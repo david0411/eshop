@@ -19,9 +19,6 @@ public class UserServiceImpl  implements UserService {
     @Override
     public UserEntity getEntityByFirebaseUserData(FirebaseUserData firebaseUserData) {
         Optional<UserEntity> optionalUserEntity = userRepository.findByFirebaseUid(firebaseUserData.getFirebaseUid());
-        if(optionalUserEntity.isEmpty())    {
-            return userRepository.save(new UserEntity(firebaseUserData));
-        }
-        return optionalUserEntity.get();
+        return optionalUserEntity.orElseGet(() -> userRepository.save(new UserEntity(firebaseUserData)));
     }
 }

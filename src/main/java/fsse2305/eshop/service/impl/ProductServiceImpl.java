@@ -75,4 +75,27 @@ public class ProductServiceImpl implements ProductService {
             throw e;
         }
     }
+
+    public Integer deductProductQtyById(Integer pid, Integer quantity) throws Exception {
+        try{
+            ProductEntity productEntity = productRepository.getProductById(pid);
+            if (productEntity == null)  {
+                throw  new PRODUCT_ID_NOT_FOUND_EXCEPTION(pid);
+            }
+            if(productEntity.getStockQty()<quantity)    {
+                //stock not enough
+                return null;
+            }
+            Integer deductedStockQty = productEntity.getStockQty() - quantity;
+            Integer deductProductResult = productRepository.deductProductQtyById(pid, deductedStockQty);
+            if(deductProductResult == 1)    {
+                return deductProductResult;
+            }
+            //throw error
+            return null;
+        } catch (PRODUCT_ID_NOT_FOUND_EXCEPTION e)    {
+            logger.warn(e.toString());
+            throw e;
+        }
+    }
 }

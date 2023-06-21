@@ -6,7 +6,7 @@ public enum TransStatus {
     PROCESSING("30"),
     SUCCESS("40");
 
-    private String code;
+    private final String code;
 
     TransStatus(String code) {
         this.code = code;

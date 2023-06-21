@@ -16,4 +16,5 @@ public interface ProductService {
 
       ProductEntity getProductEntityByPid(Integer pid)  throws Exception;
 
+      Integer deductProductQtyById(Integer pid, Integer quantity) throws Exception;
 }

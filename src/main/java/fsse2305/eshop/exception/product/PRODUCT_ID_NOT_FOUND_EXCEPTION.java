@@ -1,7 +1,7 @@
 package fsse2305.eshop.exception.product;
 
 public class PRODUCT_ID_NOT_FOUND_EXCEPTION extends Exception{
-      Integer pid;
+      final Integer pid;
       public PRODUCT_ID_NOT_FOUND_EXCEPTION(Integer pid) {
             this.pid = pid;
       }

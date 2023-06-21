@@ -25,6 +25,8 @@ public class ProductEntity {
     @JoinColumn(name = "pid")
     private List<CartItemEntity> cartItemEntityList = new ArrayList<>();
 
+    public ProductEntity() {
+    }
 
     public Integer getPid() {
         return pid;

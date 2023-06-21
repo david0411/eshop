@@ -1,12 +1,10 @@
 package fsse2305.eshop.api;
 
+import fsse2305.eshop.data.data.FinishTransResponseData;
 import fsse2305.eshop.data.data.GetTransResponseData;
 import fsse2305.eshop.data.data.PrepareTransResponseData;
 import fsse2305.eshop.data.data.TransProductResponseData;
-import fsse2305.eshop.data.dto.GetTransResponseDto;
-import fsse2305.eshop.data.dto.PrepareTransResponseDto;
-import fsse2305.eshop.data.dto.ProductResponseDto;
-import fsse2305.eshop.data.dto.TransProductResponseDto;
+import fsse2305.eshop.data.dto.*;
 import fsse2305.eshop.service.TransService;
 import fsse2305.eshop.user.FirebaseUserData;
 import fsse2305.eshop.utility.JwtUtil;
@@ -47,8 +45,20 @@ public class TransApi {
         return new GetTransResponseDto(getTransResponseData, transProductResponseDtoList);
     }
 
-//      @PatchMapping("/{tid}/pay")
-//
-//      @PatchMapping("/{tid}/finish")
+    @PatchMapping("/{tid}/pay")
+    public PayTransResponseDto payTrans(@PathVariable Integer tid, JwtAuthenticationToken jwtToken) throws Exception {
+        FirebaseUserData firebaseUserData = JwtUtil.getFirebaseUserData(jwtToken);
+        return new PayTransResponseDto(transService.payTrans(tid, firebaseUserData));
+    }
+    @PatchMapping("/{tid}/finish")
+    public FinishTransResponseDto finishTransById(@PathVariable Integer tid, JwtAuthenticationToken jwtToken) throws Exception {
+        FirebaseUserData firebaseUserData = JwtUtil.getFirebaseUserData(jwtToken);
+        FinishTransResponseData finishTransResponseData = transService.finishTrans(tid, firebaseUserData);
+        List<TransProductResponseDto> transProductResponseDtoList = new ArrayList<>();
+        for(TransProductResponseData transProductResponseData: finishTransResponseData.getTransProductResponseDataList())  {
+            transProductResponseDtoList.add(new TransProductResponseDto(transProductResponseData,new ProductResponseDto(transProductResponseData.getProductResponseData())));
+        }
+        return new FinishTransResponseDto(finishTransResponseData, transProductResponseDtoList);
+    }
 
 }

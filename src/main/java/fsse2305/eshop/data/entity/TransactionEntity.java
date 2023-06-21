@@ -1,5 +1,6 @@
 package fsse2305.eshop.data.entity;
 
+import fsse2305.eshop.data.transactionEnum.StatusConverter;
 import fsse2305.eshop.data.transactionEnum.TransStatus;
 import jakarta.persistence.*;
 
@@ -17,8 +18,9 @@ public class TransactionEntity {
     private UserEntity userEntity;
     @Column(nullable = false)
     private Timestamp datetime;
+    @Convert(converter = StatusConverter.class)
     @Column(nullable = false)
-    private Enum<TransStatus> status;
+    private TransStatus status;
     @Column(nullable = false)
     private BigDecimal total;
 
@@ -49,11 +51,15 @@ public class TransactionEntity {
         this.datetime = datetime;
     }
 
-    public Enum<TransStatus> getStatus() {
+    public void setTid(Integer tid) {
+        this.tid = tid;
+    }
+
+    public TransStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Enum<TransStatus> status) {
+    public void setStatus(TransStatus status) {
         this.status = status;
     }
 

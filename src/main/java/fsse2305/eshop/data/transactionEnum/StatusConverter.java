@@ -13,7 +13,7 @@ public class StatusConverter implements AttributeConverter<TransStatus, String> 
         if (transStatus == null) {
             return null;
         }
-        return transStatus.toString();
+        return transStatus.getCode();
     }
 
     @Override

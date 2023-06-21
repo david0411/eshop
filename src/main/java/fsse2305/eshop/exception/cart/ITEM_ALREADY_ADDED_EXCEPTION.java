@@ -1,7 +1,7 @@
 package fsse2305.eshop.exception.cart;
 
 public class ITEM_ALREADY_ADDED_EXCEPTION extends Exception{
-    Integer pid;
+    final Integer pid;
     public ITEM_ALREADY_ADDED_EXCEPTION(Integer pid) {
         this.pid = pid;
     }
