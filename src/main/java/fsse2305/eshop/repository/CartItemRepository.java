@@ -18,7 +18,7 @@ public interface CartItemRepository extends CrudRepository<CartItemEntity, Integ
     )
     Integer addItem2Cart(Integer uid,Integer pid,Integer quantity);
 
-    @Query(value = "select * from cart_item where uid=:uid and pid = :pid", nativeQuery = true)
+    @Query(value = "select c.* from cart_item c left join product p on c.pid=p.pid where c.uid=:uid and c.pid = :pid", nativeQuery = true)
     CartItemEntity getCartItemByUidAAndPid(Integer uid, Integer pid);
 
     @Query(value = "select * from cart_item where uid=:uid", nativeQuery = true)
@@ -38,4 +38,9 @@ public interface CartItemRepository extends CrudRepository<CartItemEntity, Integ
             "where pid = :pid " +
             "and uid = :uid", nativeQuery = true)
     Integer deleteCartItemByPid(Integer uid, Integer pid);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from cart_item where uid=:uid", nativeQuery = true)
+    void deleteCartItemByUid(Integer uid);
 }

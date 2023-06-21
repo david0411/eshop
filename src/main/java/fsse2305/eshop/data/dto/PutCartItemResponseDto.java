@@ -1,6 +1,6 @@
 package fsse2305.eshop.data.dto;
 
-import fsse2305.eshop.data.PutCartItemResponseData;
+import fsse2305.eshop.data.data.PutCartItemResponseData;
 
 public class PutCartItemResponseDto {
     private String result;

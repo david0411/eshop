@@ -1,24 +1,33 @@
-package fsse2305.eshop.data;
+package fsse2305.eshop.data.data;
 
-import fsse2305.eshop.data.entity.TransProductEntity;
+import fsse2305.eshop.data.entity.CartItemEntity;
+import fsse2305.eshop.data.entity.ProductEntity;
 
 import java.math.BigDecimal;
 
-public class ProductResponseData {
+public class GetCartItemResponseData {
     private int pid;
     private String name;
-    private String description;
     private String imageUrl;
     private BigDecimal price;
+    private Integer cartQty;
     private Integer stockQty;
 
-    public ProductResponseData(TransProductEntity transProductEntity) {
-        this.pid = transProductEntity.getPid();
-        this.name = transProductEntity.getName();
-        this.description = transProductEntity.getDescription();
-        this.imageUrl = transProductEntity.getImageUrl();
-        this.price = transProductEntity.getPrice();
-        this.stockQty = transProductEntity.getStockQty();
+    public GetCartItemResponseData(ProductEntity productEntity, CartItemEntity cartItemEntity)   {
+        this.pid = productEntity.getPid();
+        this.name = productEntity.getName();
+        this.imageUrl = productEntity.getImageUrl();
+        this.price = productEntity.getPrice();
+        this.cartQty = cartItemEntity.getQuantity();
+        this.stockQty = productEntity.getStockQty();
+    }
+
+    public Integer getCartQty() {
+        return cartQty;
+    }
+
+    public void setCartQty(Integer cartQty) {
+        this.cartQty = cartQty;
     }
 
     public int getPid() {
@@ -35,14 +44,6 @@ public class ProductResponseData {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getImageUrl() {

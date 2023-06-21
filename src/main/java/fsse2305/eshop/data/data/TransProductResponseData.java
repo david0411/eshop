@@ -1,4 +1,4 @@
-package fsse2305.eshop.data;
+package fsse2305.eshop.data.data;
 
 import fsse2305.eshop.data.entity.TransProductEntity;
 
@@ -8,11 +8,21 @@ public class TransProductResponseData {
     private Integer tpid;
     private Integer quantity;
     private BigDecimal subtotal;
+    private ProductResponseData productResponseData;
 
-    public TransProductResponseData(TransProductEntity transProductEntity) {
+    public TransProductResponseData(TransProductEntity transProductEntity, ProductResponseData productResponseData) {
         this.tpid = transProductEntity.getTpid();
         this.quantity = transProductEntity.getQuantity();
         this.subtotal = transProductEntity.getSubtotal();
+        this.productResponseData = productResponseData;
+    }
+
+    public ProductResponseData getProductResponseData() {
+        return productResponseData;
+    }
+
+    public void setProductResponseData(ProductResponseData productResponseData) {
+        this.productResponseData = productResponseData;
     }
 
     public Integer getTpid() {

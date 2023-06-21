@@ -1,6 +1,6 @@
 package fsse2305.eshop.api;
 
-import fsse2305.eshop.data.GetCartItemResponseData;
+import fsse2305.eshop.data.data.GetCartItemResponseData;
 import fsse2305.eshop.data.dto.DeleteCartItemResponseDto;
 import fsse2305.eshop.data.dto.GetCartItemResponseDto;
 import fsse2305.eshop.data.dto.PutCartItemResponseDto;

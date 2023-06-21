@@ -1,6 +1,6 @@
 package fsse2305.eshop.data.entity;
 
-import fsse2305.eshop.data.transStatus;
+import fsse2305.eshop.data.transactionEnum.TransStatus;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -18,7 +18,7 @@ public class TransactionEntity {
     @Column(nullable = false)
     private Timestamp datetime;
     @Column(nullable = false)
-    private Enum<transStatus> status;
+    private Enum<TransStatus> status;
     @Column(nullable = false)
     private BigDecimal total;
 
@@ -49,11 +49,11 @@ public class TransactionEntity {
         this.datetime = datetime;
     }
 
-    public Enum<transStatus> getStatus() {
+    public Enum<TransStatus> getStatus() {
         return status;
     }
 
-    public void setStatus(Enum<transStatus> status) {
+    public void setStatus(Enum<TransStatus> status) {
         this.status = status;
     }
 

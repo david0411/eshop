@@ -1,4 +1,4 @@
-package fsse2305.eshop.data;
+package fsse2305.eshop.data.data;
 
 import fsse2305.eshop.data.entity.ProductEntity;
 

@@ -1,23 +1,35 @@
-package fsse2305.eshop.data;
+package fsse2305.eshop.data.data;
 
 import fsse2305.eshop.data.entity.TransactionEntity;
+import fsse2305.eshop.data.transactionEnum.TransStatus;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class PrepareTransResponseData {
     private Integer tid;
     private Integer buyerUid;
     private Timestamp datetime;
-    private Enum<transStatus> status;
+    private Enum<TransStatus> status;
     private BigDecimal total;
+    private List<TransProductResponseData> transProductResponseDataList;
 
-    public PrepareTransResponseData(TransactionEntity transactionEntity) {
+    public PrepareTransResponseData(TransactionEntity transactionEntity, List<TransProductResponseData> transProductResponseDataList) {
         this.tid = transactionEntity.getTid();
         this.buyerUid = transactionEntity.getUserEntity().getUid();
         this.datetime = transactionEntity.getDatetime();
         this.status = transactionEntity.getStatus();
         this.total = transactionEntity.getTotal();
+        this.transProductResponseDataList = transProductResponseDataList;
+    }
+
+    public List<TransProductResponseData> getTransProductResponseDataList() {
+        return transProductResponseDataList;
+    }
+
+    public void setTransProductResponseDataList(List<TransProductResponseData> transProductResponseDataList) {
+        this.transProductResponseDataList = transProductResponseDataList;
     }
 
     public Integer getTid() {
@@ -44,11 +56,11 @@ public class PrepareTransResponseData {
         this.datetime = datetime;
     }
 
-    public Enum<transStatus> getStatus() {
+    public Enum<TransStatus> getStatus() {
         return status;
     }
 
-    public void setStatus(Enum<transStatus> status) {
+    public void setStatus(Enum<TransStatus> status) {
         this.status = status;
     }
 

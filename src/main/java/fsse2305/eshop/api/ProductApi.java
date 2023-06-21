@@ -1,7 +1,7 @@
 package fsse2305.eshop.api;
 
-import fsse2305.eshop.data.AllProductResponseData;
-import fsse2305.eshop.data.UpdateProductRequestData;
+import fsse2305.eshop.data.data.AllProductResponseData;
+import fsse2305.eshop.data.data.UpdateProductRequestData;
 import fsse2305.eshop.data.dto.AllProductResponseDto;
 import fsse2305.eshop.data.dto.ProductByIdResponseDto;
 import fsse2305.eshop.data.dto.UpdateProductRequestDto;

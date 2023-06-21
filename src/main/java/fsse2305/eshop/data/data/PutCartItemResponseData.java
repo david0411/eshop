@@ -1,4 +1,4 @@
-package fsse2305.eshop.data;
+package fsse2305.eshop.data.data;
 
 public class PutCartItemResponseData {
     private String result;

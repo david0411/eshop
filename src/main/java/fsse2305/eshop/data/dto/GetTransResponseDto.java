@@ -1,14 +1,14 @@
 package fsse2305.eshop.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fsse2305.eshop.data.data.PrepareTransResponseData;
+import fsse2305.eshop.data.data.GetTransResponseData;
 import fsse2305.eshop.data.transactionEnum.TransStatus;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class PrepareTransResponseDto {
+public class GetTransResponseDto {
     private Integer tid;
     @JsonProperty("buyer_uid")
     private Integer buyerUid;
@@ -18,15 +18,15 @@ public class PrepareTransResponseDto {
     @JsonProperty("items")
     private List<TransProductResponseDto> transProductResponseDtoList;
 
-    public PrepareTransResponseDto(PrepareTransResponseData prepareTransResponseData, List<TransProductResponseDto> transProductResponseDtoList)   {
-        this.tid = prepareTransResponseData.getTid();
-        this.buyerUid = prepareTransResponseData.getBuyerUid();
-        this.datetime = prepareTransResponseData.getDatetime();
-        this.status = prepareTransResponseData.getStatus();
-        this.total = prepareTransResponseData.getTotal();
+
+    public GetTransResponseDto(GetTransResponseData getTransResponseData, List<TransProductResponseDto> transProductResponseDtoList)   {
+        this.tid = getTransResponseData.getTid();
+        this.buyerUid = getTransResponseData.getBuyerUid();
+        this.datetime = getTransResponseData.getDatetime();
+        this.status = getTransResponseData.getStatus();
+        this.total = getTransResponseData.getTotal();
         this.transProductResponseDtoList = transProductResponseDtoList;
     }
-
     public Integer getTid() {
         return tid;
     }

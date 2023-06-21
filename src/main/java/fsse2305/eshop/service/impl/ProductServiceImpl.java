@@ -1,10 +1,10 @@
 package fsse2305.eshop.service.impl;
 
 import fsse2305.eshop.repository.ProductRepository;
-import fsse2305.eshop.data.AllProductResponseData;
-import fsse2305.eshop.data.ProductByIdResponseData;
-import fsse2305.eshop.data.UpdateProductRequestData;
-import fsse2305.eshop.data.UpdateProductResponseData;
+import fsse2305.eshop.data.data.AllProductResponseData;
+import fsse2305.eshop.data.data.ProductByIdResponseData;
+import fsse2305.eshop.data.data.UpdateProductRequestData;
+import fsse2305.eshop.data.data.UpdateProductResponseData;
 import fsse2305.eshop.data.entity.ProductEntity;
 import fsse2305.eshop.exception.product.PRODUCT_ID_NOT_FOUND_EXCEPTION;
 import fsse2305.eshop.service.ProductService;
@@ -63,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    public ProductEntity getProductEntityById(Integer pid)  throws Exception    {
+    public ProductEntity getProductEntityByPid(Integer pid)  throws Exception    {
         try{
             ProductEntity productEntity = productRepository.getProductById(pid);
             if(productEntity == null)   {

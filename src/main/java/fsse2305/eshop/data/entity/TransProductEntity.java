@@ -11,7 +11,7 @@ public class TransProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer tpid;
     @ManyToOne
-    @JoinColumn(name = "tid")
+    @JoinColumn(name = "tid", nullable = false)
     private TransactionEntity transactionEntity;
     @Column(nullable = false)
     private Integer pid;

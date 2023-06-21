@@ -1,9 +1,10 @@
 package fsse2305.eshop.service;
 
-import fsse2305.eshop.data.DeleteCartItemResponseData;
-import fsse2305.eshop.data.GetCartItemResponseData;
-import fsse2305.eshop.data.PutCartItemResponseData;
-import fsse2305.eshop.data.UpdateCartItemQtyResponseData;
+import fsse2305.eshop.data.data.DeleteCartItemResponseData;
+import fsse2305.eshop.data.data.GetCartItemResponseData;
+import fsse2305.eshop.data.data.PutCartItemResponseData;
+import fsse2305.eshop.data.data.UpdateCartItemQtyResponseData;
+import fsse2305.eshop.data.entity.CartItemEntity;
 import fsse2305.eshop.user.FirebaseUserData;
 
 import java.util.List;
@@ -17,4 +18,8 @@ public interface CartItemService {
     UpdateCartItemQtyResponseData updateCartItemQty(Integer pid, Integer quantity, FirebaseUserData firebaseUserData) throws Exception;
 
     DeleteCartItemResponseData deleteCartItem(Integer pid, FirebaseUserData firebaseUserData) throws Exception;
+
+    List<CartItemEntity> getCartItemByUid(Integer uid) throws Exception;
+
+    void deleteCartItemByUid(Integer uid);
 }

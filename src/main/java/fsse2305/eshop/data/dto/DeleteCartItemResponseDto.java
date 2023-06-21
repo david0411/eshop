@@ -1,6 +1,6 @@
 package fsse2305.eshop.data.dto;
 
-import fsse2305.eshop.data.DeleteCartItemResponseData;
+import fsse2305.eshop.data.data.DeleteCartItemResponseData;
 
 public class DeleteCartItemResponseDto {
     private String result;

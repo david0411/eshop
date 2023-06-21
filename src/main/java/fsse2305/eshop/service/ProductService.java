@@ -1,9 +1,9 @@
 package fsse2305.eshop.service;
 
-import fsse2305.eshop.data.AllProductResponseData;
-import fsse2305.eshop.data.ProductByIdResponseData;
-import fsse2305.eshop.data.UpdateProductRequestData;
-import fsse2305.eshop.data.UpdateProductResponseData;
+import fsse2305.eshop.data.data.AllProductResponseData;
+import fsse2305.eshop.data.data.ProductByIdResponseData;
+import fsse2305.eshop.data.data.UpdateProductRequestData;
+import fsse2305.eshop.data.data.UpdateProductResponseData;
 import fsse2305.eshop.data.entity.ProductEntity;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +14,6 @@ public interface ProductService {
       ProductByIdResponseData getProductById(Integer pid) throws Exception;
       UpdateProductResponseData updateProductById(Integer pid, UpdateProductRequestData updateProductRequestData) throws Exception;
 
-      ProductEntity getProductEntityById(Integer pid)  throws Exception;
+      ProductEntity getProductEntityByPid(Integer pid)  throws Exception;
+
 }

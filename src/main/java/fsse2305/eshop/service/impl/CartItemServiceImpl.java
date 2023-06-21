@@ -1,9 +1,9 @@
 package fsse2305.eshop.service.impl;
 
-import fsse2305.eshop.data.DeleteCartItemResponseData;
-import fsse2305.eshop.data.GetCartItemResponseData;
-import fsse2305.eshop.data.PutCartItemResponseData;
-import fsse2305.eshop.data.UpdateCartItemQtyResponseData;
+import fsse2305.eshop.data.data.DeleteCartItemResponseData;
+import fsse2305.eshop.data.data.GetCartItemResponseData;
+import fsse2305.eshop.data.data.PutCartItemResponseData;
+import fsse2305.eshop.data.data.UpdateCartItemQtyResponseData;
 import fsse2305.eshop.data.entity.CartItemEntity;
 import fsse2305.eshop.data.entity.ProductEntity;
 import fsse2305.eshop.exception.cart.CART_ITEM_EXCEED_STOCK_QTY_EXCEPTION;
@@ -41,7 +41,7 @@ public class CartItemServiceImpl implements CartItemService {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
             Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
-            ProductEntity productEntity = productService.getProductEntityById(pid);
+            ProductEntity productEntity = productService.getProductEntityByPid(pid);
             if(cartItemRepository.getCartItemByUidAAndPid(uid, pid) != null)    {
                 logger.info("Cart Item already exist, update quantity instead");
                 cartItemRepository.updateCartItemByPid(uid, pid, quantity);
@@ -68,7 +68,7 @@ public class CartItemServiceImpl implements CartItemService {
         List<GetCartItemResponseData> getCartItemResponseDataList = new ArrayList<>();
         Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
         for(CartItemEntity cartItemEntity: cartItemRepository.getCartItemByUid(uid))   {
-            getCartItemResponseDataList.add(new GetCartItemResponseData(productService.getProductEntityById(cartItemEntity.getPid()), cartItemEntity));
+            getCartItemResponseDataList.add(new GetCartItemResponseData(productService.getProductEntityByPid(cartItemEntity.getPid()), cartItemEntity));
         }
         logger.info("Get cart item. uid:" + uid);
         return getCartItemResponseDataList;
@@ -80,7 +80,7 @@ public class CartItemServiceImpl implements CartItemService {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
             Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
-            ProductEntity productEntity = productService.getProductEntityById(pid);
+            ProductEntity productEntity = productService.getProductEntityByPid(pid);
             CartItemEntity cartItemEntity = cartItemRepository.getCartItemByUidAAndPid(uid, pid);
             if(cartItemEntity == null)    {
                 throw new CART_ITEM_NOT_FOUND_EXCEPTION(pid);
@@ -106,7 +106,7 @@ public class CartItemServiceImpl implements CartItemService {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
             Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
-            productService.getProductEntityById(pid);
+            productService.getProductEntityByPid(pid);
             if(cartItemRepository.getCartItemByUidAAndPid(uid, pid) == null)    {
                 throw new CART_ITEM_NOT_FOUND_EXCEPTION(pid);
             }
@@ -120,5 +120,13 @@ public class CartItemServiceImpl implements CartItemService {
             logger.warn(e.toString());
             throw e;
         }
+    }
+
+    public List<CartItemEntity> getCartItemByUid(Integer uid)   {
+        return cartItemRepository.getCartItemByUid(uid);
+    }
+
+    public void deleteCartItemByUid(Integer uid)    {
+        cartItemRepository.deleteCartItemByUid(uid);
     }
 }
