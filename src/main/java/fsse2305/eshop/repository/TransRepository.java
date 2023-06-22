@@ -12,23 +12,20 @@ public interface TransRepository extends CrudRepository<TransactionEntity, Integ
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO transaction set " +
-            "buyer_uid=:uid," +
-            "datetime=:datetime," +
-            "status=:transStatus," +
-            "total=0", nativeQuery = true)
+    @Query(value = "INSERT INTO transaction (buyer_uid,datetime,status,total) " +
+            "VALUES (:uid,:datetime,:transStatus,0)", nativeQuery = true)
     Integer createTransaction(Integer uid, Timestamp datetime, String transStatus);
 
-    @Query(value = "select * from transaction where datetime=:timestamp", nativeQuery = true)
+    @Query(value = "SELECT * FROM transaction WHERE datetime=:timestamp", nativeQuery = true)
     TransactionEntity getTransactionEntityByTransTime(Timestamp timestamp);
 
-    @Query(value = "select * from transaction where buyer_uid=:uid and tid=:tid", nativeQuery = true)
+    @Query(value = "SELECT * FROM transaction WHERE buyer_uid=:uid AND tid=:tid", nativeQuery = true)
     TransactionEntity getTransactionEntityByUidAndTid(Integer uid, Integer tid);
     @Modifying
     @Transactional
-    @Query(value = "update transaction set " +
+    @Query(value = "UPDATE transaction SET " +
             "status=:transStatus " +
-            "where buyer_uid=:uid " +
-            "and tid=:tid", nativeQuery = true)
+            "WHERE buyer_uid=:uid " +
+            "AND tid=:tid", nativeQuery = true)
     Integer updateTransStatusByUidAndTid(Integer uid, Integer tid, String transStatus);
 }

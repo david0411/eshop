@@ -13,21 +13,13 @@ public interface TransProductRepository extends CrudRepository<TransProductEntit
 
     @Modifying
     @Transactional
-    @Query(value ="INSERT INTO transaction_product set " +
-            "tid=:tid," +
-            "pid=:pid," +
-            "name=:name," +
-            "description=:description," +
-            "image_url=:imageUrl," +
-            "price=:price," +
-            "stock_qty=:stockQty," +
-            "quantity=:quantity," +
-            "subtotal=:subtotal", nativeQuery = true )
+    @Query(value ="INSERT INTO transaction_product (tid,pid,name,description,image_url,price,stock_qty,quantity,subtotal) " +
+            "VALUES (:tid,:pid,:name,:description,:imageUrl,:price,:stockQty,:quantity,:subtotal)", nativeQuery = true )
     Integer createTransProduct(Integer tid, Integer pid, String name, String description, String imageUrl, BigDecimal price, Integer stockQty, Integer quantity, BigDecimal subtotal);
 
-    @Query(value = "select * from transaction_product where pid=:pid and tid=:tid", nativeQuery = true)
-    TransProductEntity getTransactionEntityByPidAndTid(Integer pid, Integer tid);
+    @Query(value = "SELECT * FROM transaction_product WHERE pid=:pid AND tid=:tid", nativeQuery = true)
+    TransProductEntity getTransactionProductEntityByPidAndTid(Integer pid, Integer tid);
 
-    @Query(value = "select * from transaction_product where tid=:tid", nativeQuery = true)
-    List<TransProductEntity> getTransactionEntityByTid(int tid);
+    @Query(value = "SELECT * FROM transaction_product WHERE tid=:tid", nativeQuery = true)
+    List<TransProductEntity> getTransactionProductEntityByTid(int tid);
 }

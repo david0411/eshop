@@ -13,5 +13,5 @@ public interface TransService {
 
     PayTransResponseData payTrans(Integer tid, FirebaseUserData firebaseUserData) throws Exception;
 
-    FinishTransResponseData finishTrans(Integer tid, FirebaseUserData firebaseUserData);
+    FinishTransResponseData finishTrans(Integer tid, FirebaseUserData firebaseUserData) throws Exception;
 }

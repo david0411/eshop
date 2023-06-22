@@ -21,5 +21,5 @@ public interface CartItemService {
 
     List<CartItemEntity> getCartItemByUid(Integer uid) throws Exception;
 
-    void deleteCartItemByUid(Integer uid);
+    Integer deleteCartItemByUid(Integer uid) throws Exception;
 }

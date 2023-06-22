@@ -11,36 +11,34 @@ import java.util.List;
 public interface CartItemRepository extends CrudRepository<CartItemEntity, Integer> {
     @Modifying
     @Transactional
-    @Query(value = "insert into cart_item set " +
-            "pid = :pid," +
-            "uid = :uid," +
-            "quantity = :quantity", nativeQuery = true
+    @Query(value = "INSERT INTO cart_item (uid,pid,quantity)" +
+            "VALUES (:uid,:pid,:quantity)", nativeQuery = true
     )
     Integer addItem2Cart(Integer uid,Integer pid,Integer quantity);
 
-    @Query(value = "select c.* from cart_item c left join product p on c.pid=p.pid where c.uid=:uid and c.pid = :pid", nativeQuery = true)
+    @Query(value = "SELECT c.* FROM cart_item c Left Join product p ON c.pid=p.pid WHERE c.uid=:uid AND c.pid = :pid", nativeQuery = true)
     CartItemEntity getCartItemByUidAAndPid(Integer uid, Integer pid);
 
-    @Query(value = "select * from cart_item where uid=:uid", nativeQuery = true)
+    @Query(value = "SELECT * FROM cart_item WHERE uid=:uid", nativeQuery = true)
     List<CartItemEntity> getCartItemByUid(Integer uid);
 
     @Modifying
     @Transactional
-    @Query(value = "update cart_item set " +
+    @Query(value = "UPDATE cart_item SET " +
             "quantity = :quantity " +
-            "where pid = :pid " +
-            "and uid = :uid", nativeQuery = true)
+            "WHERE pid = :pid " +
+            "AND uid = :uid", nativeQuery = true)
     Integer updateCartItemByPid(Integer uid, Integer pid,Integer quantity);
 
     @Modifying
     @Transactional
-    @Query(value = "delete from cart_item " +
-            "where pid = :pid " +
-            "and uid = :uid", nativeQuery = true)
+    @Query(value = "DELETE FROM cart_item " +
+            "WHERE pid = :pid " +
+            "AND uid = :uid", nativeQuery = true)
     Integer deleteCartItemByPid(Integer uid, Integer pid);
 
     @Modifying
     @Transactional
-    @Query(value = "delete from cart_item where uid=:uid", nativeQuery = true)
-    void deleteCartItemByUid(Integer uid);
+    @Query(value = "DELETE FROM cart_item WHERE uid=:uid", nativeQuery = true)
+    Integer deleteCartItemByUid(Integer uid);
 }

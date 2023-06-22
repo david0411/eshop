@@ -11,25 +11,26 @@ import java.util.List;
 
 public interface ProductRepository extends CrudRepository<ProductEntity, Integer> {
 
-    @Query(value = "select * from product", nativeQuery = true)
+    @Query(value = "SELECT * FROM product", nativeQuery = true)
     List<ProductEntity> getAllProduct();
 
-    @Query(value = "select * from product where pid=:pid", nativeQuery = true)
+    @Query(value = "SELECT * FROM product WHERE pid=:pid", nativeQuery = true)
     ProductEntity getProductById(Integer pid);
 
-    @Query(value = "update product set " +
+    @Query(value = "UPDATE product SET " +
               "name=:name," +
               "description=:description," +
               "image_url=:imageUrl," +
               "price=:price," +
               "stock_qty=:stockQty " +
-              "where pid=:pid", nativeQuery = true)
+              "WHERE pid=:pid", nativeQuery = true)
     ProductEntity updateProductById(Integer pid, String name, String description, String imageUrl, BigDecimal price, Integer stockQty);
+
     @Modifying
     @Transactional
-    @Query(value = "update product set " +
-            "stock_qty=:deductProductResult " +
-            "where pid=:pid", nativeQuery = true)
-    Integer deductProductQtyById(Integer pid, Integer deductProductResult);
+    @Query(value = "UPDATE product SET " +
+            "stock_qty=:updatedQty " +
+            "WHERE pid=:pid", nativeQuery = true)
+    Integer deductProductQtyById(Integer pid, Integer updatedQty);
 }
 

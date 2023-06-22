@@ -40,11 +40,15 @@ public class CartItemServiceImpl implements CartItemService {
             if(pid == null || quantity == null || firebaseUserData == null) {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
-            Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
+            Integer uid = getUid(firebaseUserData);
+            logger.info("Check item in Cart");
             ProductEntity productEntity = productService.getProductEntityByPid(pid);
-            if(cartItemRepository.getCartItemByUidAAndPid(uid, pid) != null)    {
+            CartItemEntity cartItemEntity = cartItemRepository.getCartItemByUidAAndPid(uid, pid);
+            if(cartItemEntity != null)    {
                 logger.info("Cart Item already exist, update quantity instead");
-                cartItemRepository.updateCartItemByPid(uid, pid, quantity);
+                logger.info("Update cart item. uid:" + uid + " pid:" + pid + " Qty:" + quantity);
+                cartItemRepository.updateCartItemByPid(uid, pid, cartItemEntity.getQuantity() + quantity);
+                return new PutCartItemResponseData("SUCCESS");
             }
             if(productEntity.getStockQty() < quantity)    {
                 throw new CART_ITEM_EXCEED_STOCK_QTY_EXCEPTION(pid, productEntity.getStockQty(), quantity);
@@ -62,16 +66,21 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     public List<GetCartItemResponseData> getCartItem(FirebaseUserData firebaseUserData) throws Exception {
-        if(firebaseUserData == null) {
-            throw new DATA_INSUFFICIENT_EXCEPTION();
+        try {
+            if(firebaseUserData == null) {
+                throw new DATA_INSUFFICIENT_EXCEPTION();
+            }
+            Integer uid = getUid(firebaseUserData);
+            List<GetCartItemResponseData> getCartItemResponseDataList = new ArrayList<>();
+            logger.info("Get cart item. uid:" + uid);
+            for(CartItemEntity cartItemEntity: cartItemRepository.getCartItemByUid(uid))   {
+                getCartItemResponseDataList.add(new GetCartItemResponseData(productService.getProductEntityByPid(cartItemEntity.getPid()), cartItemEntity));
+            }
+            return getCartItemResponseDataList;
+        }   catch (Exception e) {
+            logger.warn(e.toString());
+            throw e;
         }
-        List<GetCartItemResponseData> getCartItemResponseDataList = new ArrayList<>();
-        Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
-        for(CartItemEntity cartItemEntity: cartItemRepository.getCartItemByUid(uid))   {
-            getCartItemResponseDataList.add(new GetCartItemResponseData(productService.getProductEntityByPid(cartItemEntity.getPid()), cartItemEntity));
-        }
-        logger.info("Get cart item. uid:" + uid);
-        return getCartItemResponseDataList;
     }
 
     public UpdateCartItemQtyResponseData updateCartItemQty(Integer pid, Integer quantity, FirebaseUserData firebaseUserData) throws Exception {
@@ -79,7 +88,7 @@ public class CartItemServiceImpl implements CartItemService {
             if(pid == null || quantity == null || firebaseUserData == null) {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
-            Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
+            Integer uid = getUid(firebaseUserData);
             ProductEntity productEntity = productService.getProductEntityByPid(pid);
             CartItemEntity cartItemEntity = cartItemRepository.getCartItemByUidAAndPid(uid, pid);
             if(cartItemEntity == null)    {
@@ -105,7 +114,7 @@ public class CartItemServiceImpl implements CartItemService {
             if(pid == null || firebaseUserData == null) {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
-            Integer uid = userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
+            Integer uid = getUid(firebaseUserData);
             productService.getProductEntityByPid(pid);
             if(cartItemRepository.getCartItemByUidAAndPid(uid, pid) == null)    {
                 throw new CART_ITEM_NOT_FOUND_EXCEPTION(pid);
@@ -122,11 +131,34 @@ public class CartItemServiceImpl implements CartItemService {
         }
     }
 
-    public List<CartItemEntity> getCartItemByUid(Integer uid)   {
-        return cartItemRepository.getCartItemByUid(uid);
+    public List<CartItemEntity> getCartItemByUid(Integer uid) throws Exception  {
+        try {
+            if(uid == null) {
+                throw new DATA_INSUFFICIENT_EXCEPTION();
+            }
+            logger.info("Get cart item. uid:" + uid);
+            return cartItemRepository.getCartItemByUid(uid);
+        } catch (Exception e)   {
+            logger.warn(e.toString());
+            throw e;
+        }
     }
 
-    public void deleteCartItemByUid(Integer uid)    {
-        cartItemRepository.deleteCartItemByUid(uid);
+    public Integer deleteCartItemByUid(Integer uid) throws Exception  {
+        try {
+            if(uid == null) {
+                throw new DATA_INSUFFICIENT_EXCEPTION();
+            }
+            logger.info("Delete cart item. uid:" + uid);
+            return cartItemRepository.deleteCartItemByUid(uid);
+        } catch (Exception e)   {
+            logger.warn(e.toString());
+            throw e;
+        }
+    }
+
+    private Integer getUid(FirebaseUserData firebaseUserData)   {
+        logger.info("Get User");
+        return userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
     }
 }

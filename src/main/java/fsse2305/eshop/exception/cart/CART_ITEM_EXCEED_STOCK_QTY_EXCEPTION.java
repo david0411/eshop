@@ -11,8 +11,8 @@ public class CART_ITEM_EXCEED_STOCK_QTY_EXCEPTION extends Exception{
     }
     @Override
     public String toString() {
-        return "Product ID: " + pid + " not enough\n" +
-                "Stock quantity: " + stockQty + "\n" +
-                "Requested quantity: " + requestedQty;
+        return "Product ID: " + pid + " not enough. " +
+                "Stock quantity: " + stockQty +
+                ", Requested quantity: " + requestedQty;
     }
 }

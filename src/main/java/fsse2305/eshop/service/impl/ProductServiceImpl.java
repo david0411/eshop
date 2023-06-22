@@ -1,5 +1,7 @@
 package fsse2305.eshop.service.impl;
 
+import fsse2305.eshop.exception.product.STOCK_QTY_DEDUCT_FAILED_EXCEPTION;
+import fsse2305.eshop.exception.product.STOCK_QTY_NOT_ENOUGH_EXCEPTION;
 import fsse2305.eshop.repository.ProductRepository;
 import fsse2305.eshop.data.data.AllProductResponseData;
 import fsse2305.eshop.data.data.ProductByIdResponseData;
@@ -65,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
 
     public ProductEntity getProductEntityByPid(Integer pid)  throws Exception    {
         try{
+            logger.info("Get Product: " + pid);
             ProductEntity productEntity = productRepository.getProductById(pid);
             if(productEntity == null)   {
                 throw  new PRODUCT_ID_NOT_FOUND_EXCEPTION(pid);
@@ -78,22 +81,21 @@ public class ProductServiceImpl implements ProductService {
 
     public Integer deductProductQtyById(Integer pid, Integer quantity) throws Exception {
         try{
+            logger.info("Get Product: " + pid);
             ProductEntity productEntity = productRepository.getProductById(pid);
             if (productEntity == null)  {
-                throw  new PRODUCT_ID_NOT_FOUND_EXCEPTION(pid);
+                throw new PRODUCT_ID_NOT_FOUND_EXCEPTION(pid);
             }
             if(productEntity.getStockQty()<quantity)    {
-                //stock not enough
-                return null;
+                throw new STOCK_QTY_NOT_ENOUGH_EXCEPTION(pid, productEntity.getStockQty(), quantity);
             }
-            Integer deductedStockQty = productEntity.getStockQty() - quantity;
-            Integer deductProductResult = productRepository.deductProductQtyById(pid, deductedStockQty);
+            logger.info("Deduct qty PID: " + pid + ", updated qty:" + (productEntity.getStockQty() - quantity));
+            Integer deductProductResult = productRepository.deductProductQtyById(pid, productEntity.getStockQty() - quantity);
             if(deductProductResult == 1)    {
                 return deductProductResult;
             }
-            //throw error
-            return null;
-        } catch (PRODUCT_ID_NOT_FOUND_EXCEPTION e)    {
+            throw new STOCK_QTY_DEDUCT_FAILED_EXCEPTION(pid);
+        } catch (Exception e)    {
             logger.warn(e.toString());
             throw e;
         }

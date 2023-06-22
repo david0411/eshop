@@ -16,10 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/transaction")
-public class TransApi {
+public class TransactionApi {
     public final TransService transService;
 
-    public TransApi(TransService transService) {
+    public TransactionApi(TransService transService) {
         this.transService = transService;
     }
 
