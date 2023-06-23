@@ -1,49 +1,52 @@
 package fsse2305.eshop.data.entity;
 
-import jakarta.persistence.*;
 
-@Entity
-@Table(name = "cart_item")
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "cart_item")
 public class CartItemEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cid;
-    @ManyToOne
-    @JoinColumn(name = "pid")
-    private ProductEntity productEntity;
-    @ManyToOne
-    @JoinColumn(name = "uid")
-    private UserEntity userEntity;
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String cid;
+    private String pid;
+    private String uid;
     private Integer quantity;
 
     public CartItemEntity() {
-
     }
 
-    public ProductEntity getProductEntity() {
-        return productEntity;
+    public CartItemEntity(String pid, String uid, Integer quantity) {
+        this.pid = pid;
+        this.uid = uid;
+        this.quantity = quantity;
     }
 
-    public void setProductEntity(ProductEntity productEntity) {
-        this.productEntity = productEntity;
-    }
-
-    public UserEntity getUserEntity() {
-        return userEntity;
-    }
-
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
-    }
-
-    public Integer getCid() {
+    public String getCid() {
         return cid;
     }
 
-    public void setCid(Integer cid) {
+    public void setCid(String cid) {
         this.cid = cid;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public Integer getQuantity() {
@@ -54,11 +57,13 @@ public class CartItemEntity {
         this.quantity = quantity;
     }
 
-    public Integer getUid() {
-        return userEntity.getUid();
-    }
-
-    public Integer getPid() {
-        return productEntity.getPid();
+    @Override
+    public String toString() {
+        return "CartItemEntity{" +
+                "cid=" + cid +
+                ", pid=" + pid +
+                ", uid=" + uid +
+                ", quantity=" + quantity +
+                '}';
     }
 }

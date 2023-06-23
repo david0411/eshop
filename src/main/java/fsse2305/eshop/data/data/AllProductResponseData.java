@@ -5,7 +5,7 @@ import fsse2305.eshop.data.entity.ProductEntity;
 import java.math.BigDecimal;
 
 public class AllProductResponseData {
-      public int pid;
+      public String pid;
       public String name;
       public String imageUrl;
       public BigDecimal price;
@@ -19,11 +19,11 @@ public class AllProductResponseData {
             setHasStock(productEntity.getStockQty());
       }
 
-      public int getPid() {
+      public String getPid() {
             return pid;
       }
 
-      public void setPid(int pid) {
+      public void setPid(String pid) {
             this.pid = pid;
       }
 

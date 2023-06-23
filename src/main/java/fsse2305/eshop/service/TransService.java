@@ -9,9 +9,9 @@ import fsse2305.eshop.user.FirebaseUserData;
 public interface TransService {
     PrepareTransResponseData prepareTrans(FirebaseUserData firebaseUserData) throws Exception;
 
-    GetTransResponseData getTrans(Integer tid, FirebaseUserData firebaseUserData) throws Exception;
+    GetTransResponseData getTrans(String tid, FirebaseUserData firebaseUserData) throws Exception;
 
-    PayTransResponseData payTrans(Integer tid, FirebaseUserData firebaseUserData) throws Exception;
+    PayTransResponseData payTrans(String tid, FirebaseUserData firebaseUserData) throws Exception;
 
-    FinishTransResponseData finishTrans(Integer tid, FirebaseUserData firebaseUserData) throws Exception;
+    FinishTransResponseData finishTrans(String tid, FirebaseUserData firebaseUserData) throws Exception;
 }

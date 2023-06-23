@@ -5,7 +5,7 @@ import fsse2305.eshop.data.entity.TransProductEntity;
 import java.math.BigDecimal;
 
 public class TransProductResponseData {
-    private Integer tpid;
+    private String tpid;
     private Integer quantity;
     private BigDecimal subtotal;
     private ProductResponseData productResponseData;
@@ -25,11 +25,11 @@ public class TransProductResponseData {
         this.productResponseData = productResponseData;
     }
 
-    public Integer getTpid() {
+    public String getTpid() {
         return tpid;
     }
 
-    public void setTpid(Integer tpid) {
+    public void setTpid(String tpid) {
         this.tpid = tpid;
     }
 

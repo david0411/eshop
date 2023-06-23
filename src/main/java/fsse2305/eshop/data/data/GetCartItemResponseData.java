@@ -6,7 +6,7 @@ import fsse2305.eshop.data.entity.ProductEntity;
 import java.math.BigDecimal;
 
 public class GetCartItemResponseData {
-    private int pid;
+    private String pid;
     private String name;
     private String imageUrl;
     private BigDecimal price;
@@ -30,11 +30,11 @@ public class GetCartItemResponseData {
         this.cartQty = cartQty;
     }
 
-    public int getPid() {
+    public String getPid() {
         return pid;
     }
 
-    public void setPid(int pid) {
+    public void setPid(String pid) {
         this.pid = pid;
     }
 

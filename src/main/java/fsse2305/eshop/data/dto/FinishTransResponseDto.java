@@ -5,14 +5,14 @@ import fsse2305.eshop.data.data.FinishTransResponseData;
 import fsse2305.eshop.data.transactionEnum.TransStatus;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class FinishTransResponseDto {
-    private Integer tid;
+    private String tid;
     @JsonProperty("buyer_uid")
-    private Integer buyerUid;
-    private Timestamp datetime;
+    private String buyerUid;
+    private LocalDateTime datetime;
     private Enum<TransStatus> status;
     private BigDecimal total;
     @JsonProperty("items")
@@ -27,27 +27,27 @@ public class FinishTransResponseDto {
         this.transProductResponseDtoList = transProductResponseDtoList;
     }
 
-    public Integer getTid() {
+    public String getTid() {
         return tid;
     }
 
-    public void setTid(Integer tid) {
+    public void setTid(String tid) {
         this.tid = tid;
     }
 
-    public Integer getBuyerUid() {
+    public String getBuyerUid() {
         return buyerUid;
     }
 
-    public void setBuyerUid(Integer buyerUid) {
+    public void setBuyerUid(String buyerUid) {
         this.buyerUid = buyerUid;
     }
 
-    public Timestamp getDatetime() {
+    public LocalDateTime getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(Timestamp datetime) {
+    public void setDatetime(LocalDateTime datetime) {
         this.datetime = datetime;
     }
 

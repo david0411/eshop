@@ -35,7 +35,7 @@ public class TransactionApi {
     }
 
     @GetMapping("/{tid}")
-    public GetTransResponseDto getTransById(@PathVariable Integer tid, JwtAuthenticationToken jwtToken) throws Exception {
+    public GetTransResponseDto getTransById(@PathVariable String tid, JwtAuthenticationToken jwtToken) throws Exception {
         FirebaseUserData firebaseUserData = JwtUtil.getFirebaseUserData(jwtToken);
         GetTransResponseData getTransResponseData = transService.getTrans(tid, firebaseUserData);
         List<TransProductResponseDto> transProductResponseDtoList = new ArrayList<>();
@@ -46,12 +46,12 @@ public class TransactionApi {
     }
 
     @PatchMapping("/{tid}/pay")
-    public PayTransResponseDto payTrans(@PathVariable Integer tid, JwtAuthenticationToken jwtToken) throws Exception {
+    public PayTransResponseDto payTrans(@PathVariable String tid, JwtAuthenticationToken jwtToken) throws Exception {
         FirebaseUserData firebaseUserData = JwtUtil.getFirebaseUserData(jwtToken);
         return new PayTransResponseDto(transService.payTrans(tid, firebaseUserData));
     }
     @PatchMapping("/{tid}/finish")
-    public FinishTransResponseDto finishTransById(@PathVariable Integer tid, JwtAuthenticationToken jwtToken) throws Exception {
+    public FinishTransResponseDto finishTransById(@PathVariable String tid, JwtAuthenticationToken jwtToken) throws Exception {
         FirebaseUserData firebaseUserData = JwtUtil.getFirebaseUserData(jwtToken);
         FinishTransResponseData finishTransResponseData = transService.finishTrans(tid, firebaseUserData);
         List<TransProductResponseDto> transProductResponseDtoList = new ArrayList<>();

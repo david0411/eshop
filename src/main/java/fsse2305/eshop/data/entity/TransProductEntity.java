@@ -1,57 +1,67 @@
 package fsse2305.eshop.data.entity;
 
-import jakarta.persistence.*;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "transaction_product")
+@Document(collection = "trans_product")
 public class TransProductEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer tpid;
-    @ManyToOne
-    @JoinColumn(name = "tid", nullable = false)
-    private TransactionEntity transactionEntity;
-    @Column(nullable = false)
-    private Integer pid;
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String tpid;
+    private String tid;
+    private String pid;
     private String name;
     private String description;
+    @Field(name = "image_url")
     private String imageUrl;
-    @Column(nullable = false)
     private BigDecimal price;
-    @Column(nullable = false)
+    @Field(name = "stock_qty")
     private Integer stockQty;
-    @Column(nullable = false)
     private Integer quantity;
-    @Column(nullable = false)
     private BigDecimal subtotal;
 
     public TransProductEntity() {
     }
 
-    public Integer getTpid() {
+    public TransProductEntity(String tid, String pid, String name, String description, String imageUrl, BigDecimal price, Integer stockQty, Integer quantity, BigDecimal subtotal) {
+        this.tid = tid;
+        this.pid = pid;
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.price = price;
+        this.stockQty = stockQty;
+        this.quantity = quantity;
+        this.subtotal = subtotal;
+    }
+
+    public String getTpid() {
         return tpid;
     }
 
-    public void setTpid(Integer tpid) {
+    public void setTpid(String tpid) {
         this.tpid = tpid;
     }
 
-    public TransactionEntity getTransactionEntity() {
-        return transactionEntity;
+    public String getTid() {
+        return tid;
     }
 
-    public void setTransactionEntity(TransactionEntity transactionEntity) {
-        this.transactionEntity = transactionEntity;
+    public void setTid(String tid) {
+        this.tid = tid;
     }
 
-    public Integer getPid() {
+    public String getPid() {
         return pid;
     }
 
-    public void setPid(Integer pid) {
+    public void setPid(String pid) {
         this.pid = pid;
     }
 
@@ -109,5 +119,21 @@ public class TransProductEntity {
 
     public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
+    }
+
+    @Override
+    public String toString() {
+        return "TransProductEntity{" +
+                "tpid=" + tpid +
+                ", tid=" + tid +
+                ", pid=" + pid +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", price=" + price +
+                ", stockQty=" + stockQty +
+                ", quantity=" + quantity +
+                ", subtotal=" + subtotal +
+                '}';
     }
 }

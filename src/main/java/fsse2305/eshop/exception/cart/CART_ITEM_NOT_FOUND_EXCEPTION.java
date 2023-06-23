@@ -1,8 +1,8 @@
 package fsse2305.eshop.exception.cart;
 
 public class CART_ITEM_NOT_FOUND_EXCEPTION extends Exception{
-    final Integer pid;
-    public CART_ITEM_NOT_FOUND_EXCEPTION(Integer pid) {
+    final String pid;
+    public CART_ITEM_NOT_FOUND_EXCEPTION(String pid) {
         this.pid = pid;
     }
     @Override

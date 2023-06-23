@@ -24,7 +24,7 @@ public class CartItemApi {
     }
 
     @PutMapping("/{pid}/{quantity}")
-    public PutCartItemResponseDto putCartItem(@PathVariable Integer pid, @PathVariable Integer quantity, JwtAuthenticationToken jwtToken) throws Exception {
+    public PutCartItemResponseDto putCartItem(@PathVariable String pid, @PathVariable Integer quantity, JwtAuthenticationToken jwtToken) throws Exception {
         FirebaseUserData firebaseUserData = JwtUtil.getFirebaseUserData(jwtToken);
         return new PutCartItemResponseDto(cartItemService.putCartItem(pid, quantity, firebaseUserData));
     }
@@ -40,13 +40,13 @@ public class CartItemApi {
     }
 
     @PatchMapping("/{pid}/{quantity}")
-    public UpdateCartItemQtyResponseDto updateCartItemQty(@PathVariable Integer pid, @PathVariable Integer quantity, JwtAuthenticationToken jwtToken)  throws Exception    {
+    public UpdateCartItemQtyResponseDto updateCartItemQty(@PathVariable String pid, @PathVariable Integer quantity, JwtAuthenticationToken jwtToken)  throws Exception    {
         FirebaseUserData firebaseUserData = JwtUtil.getFirebaseUserData(jwtToken);
         return new UpdateCartItemQtyResponseDto(cartItemService.updateCartItemQty(pid, quantity, firebaseUserData));
     }
 
     @DeleteMapping("/{pid}")
-    public DeleteCartItemResponseDto deleteCartItem(@PathVariable Integer pid, JwtAuthenticationToken jwtToken) throws Exception    {
+    public DeleteCartItemResponseDto deleteCartItem(@PathVariable String pid, JwtAuthenticationToken jwtToken) throws Exception    {
         FirebaseUserData firebaseUserData = JwtUtil.getFirebaseUserData(jwtToken);
         return new DeleteCartItemResponseDto(cartItemService.deleteCartItem(pid, firebaseUserData));
     }

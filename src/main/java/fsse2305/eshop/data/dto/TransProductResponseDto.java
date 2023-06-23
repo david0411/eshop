@@ -6,7 +6,7 @@ import fsse2305.eshop.data.data.TransProductResponseData;
 import java.math.BigDecimal;
 
 public class TransProductResponseDto {
-    private Integer tpid;
+    private String tpid;
     @JsonProperty("product")
     private ProductResponseDto productResponseDto;
     private Integer quantity;
@@ -19,11 +19,11 @@ public class TransProductResponseDto {
         this.subtotal = transProductResponseData.getSubtotal();
     }
 
-    public Integer getTpid() {
+    public String getTpid() {
         return tpid;
     }
 
-    public void setTpid(Integer tpid) {
+    public void setTpid(String tpid) {
         this.tpid = tpid;
     }
 

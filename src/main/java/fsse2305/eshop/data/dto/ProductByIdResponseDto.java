@@ -6,7 +6,7 @@ import fsse2305.eshop.data.data.ProductByIdResponseData;
 import java.math.BigDecimal;
 
 public class ProductByIdResponseDto {
-      private int pid;
+      private String pid;
       private String name;
       private String description;
       @JsonProperty("image_url")
@@ -24,11 +24,11 @@ public class ProductByIdResponseDto {
             this.stockQty = productByIdResponseData.getStockQty();
       }
 
-      public int getPid() {
+      public String getPid() {
             return pid;
       }
 
-      public void setPid(int pid) {
+      public void setPid(String pid) {
             this.pid = pid;
       }
 

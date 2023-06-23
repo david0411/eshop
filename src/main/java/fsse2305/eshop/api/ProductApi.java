@@ -32,12 +32,12 @@ public class ProductApi {
     }
 
     @GetMapping("/public/product/{id}")
-    public ProductByIdResponseDto getProductById(@PathVariable Integer id) throws Exception {
+    public ProductByIdResponseDto getProductById(@PathVariable String id) throws Exception {
         return new ProductByIdResponseDto(productService.getProductById(id));
     }
 
     @PutMapping("admin/product/{id}")
-    public UpdateProductResponseDto updateProductById(@PathVariable Integer id, @RequestBody UpdateProductRequestDto updateProductRequestDto, JwtAuthenticationToken
+    public UpdateProductResponseDto updateProductById(@PathVariable String id, @RequestBody UpdateProductRequestDto updateProductRequestDto, JwtAuthenticationToken
             jwtToken) throws Exception    {
         return new UpdateProductResponseDto(productService.updateProductById(id, new UpdateProductRequestData(updateProductRequestDto)));
     }

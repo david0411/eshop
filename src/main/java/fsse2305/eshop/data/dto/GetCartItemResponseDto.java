@@ -6,7 +6,7 @@ import fsse2305.eshop.data.data.GetCartItemResponseData;
 import java.math.BigDecimal;
 
 public class GetCartItemResponseDto {
-    private int pid;
+    private String pid;
     private String name;
     @JsonProperty("image_url")
     private String imageUrl;
@@ -25,11 +25,11 @@ public class GetCartItemResponseDto {
         this.stockQty = getCartItemResponseData.getStockQty();
     }
 
-    public int getPid() {
+    public String getPid() {
         return pid;
     }
 
-    public void setPid(int pid) {
+    public void setPid(String pid) {
         this.pid = pid;
     }
 

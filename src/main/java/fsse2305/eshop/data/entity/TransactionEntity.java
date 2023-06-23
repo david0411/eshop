@@ -1,65 +1,64 @@
 package fsse2305.eshop.data.entity;
 
-import fsse2305.eshop.data.transactionEnum.StatusConverter;
-import fsse2305.eshop.data.transactionEnum.TransStatus;
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "transaction")
+@Document(collection = "transaction")
 public class TransactionEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer tid;
-    @ManyToOne
-    @JoinColumn(name = "buyer_uid", nullable = false)
-    private UserEntity userEntity;
-    @Column(nullable = false)
-    private Timestamp datetime;
-    @Convert(converter = StatusConverter.class)
-    @Column(nullable = false)
-    private TransStatus status;
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String tid;
+    @Field(name = "buyer_uid")
+    private String buyerUid;
+    private LocalDateTime datetime;
+    private String status;
     private BigDecimal total;
 
     public TransactionEntity() {
     }
 
-    public int getTid() {
+    public TransactionEntity(String buyerUid, LocalDateTime datetime, String status, BigDecimal total) {
+        this.buyerUid = buyerUid;
+        this.datetime = datetime;
+        this.status = status;
+        this.total = total;
+    }
+
+    public String getTid() {
         return tid;
     }
 
-    public void setTid(int tid) {
+    public void setTid(String tid) {
         this.tid = tid;
     }
 
-    public UserEntity getUserEntity() {
-        return userEntity;
+    public String getBuyerUid() {
+        return buyerUid;
     }
 
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
+    public void setBuyerUid(String buyerUid) {
+        this.buyerUid = buyerUid;
     }
 
-    public Timestamp getDatetime() {
+    public LocalDateTime getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(Timestamp datetime) {
+    public void setDatetime(LocalDateTime datetime) {
         this.datetime = datetime;
     }
 
-    public void setTid(Integer tid) {
-        this.tid = tid;
-    }
-
-    public TransStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(TransStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -69,5 +68,16 @@ public class TransactionEntity {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionEntity{" +
+                "tid=" + tid +
+                ", buyer_uid=" + buyerUid +
+                ", datetime=" + datetime +
+                ", status=" + status +
+                ", total=" + total +
+                '}';
     }
 }

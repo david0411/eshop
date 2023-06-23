@@ -4,22 +4,22 @@ import fsse2305.eshop.data.entity.TransactionEntity;
 import fsse2305.eshop.data.transactionEnum.TransStatus;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class PrepareTransResponseData {
-    private Integer tid;
-    private Integer buyerUid;
-    private Timestamp datetime;
+    private String tid;
+    private String buyerUid;
+    private LocalDateTime datetime;
     private Enum<TransStatus> status;
     private BigDecimal total;
     private List<TransProductResponseData> transProductResponseDataList;
 
     public PrepareTransResponseData(TransactionEntity transactionEntity, List<TransProductResponseData> transProductResponseDataList) {
         this.tid = transactionEntity.getTid();
-        this.buyerUid = transactionEntity.getUserEntity().getUid();
+        this.buyerUid = transactionEntity.getBuyerUid();
         this.datetime = transactionEntity.getDatetime();
-        this.status = transactionEntity.getStatus();
+        this.status = TransStatus.valueOf(transactionEntity.getStatus());
         this.total = transactionEntity.getTotal();
         this.transProductResponseDataList = transProductResponseDataList;
     }
@@ -32,27 +32,27 @@ public class PrepareTransResponseData {
         this.transProductResponseDataList = transProductResponseDataList;
     }
 
-    public Integer getTid() {
+    public String getTid() {
         return tid;
     }
 
-    public void setTid(Integer tid) {
+    public void setTid(String tid) {
         this.tid = tid;
     }
 
-    public Integer getBuyerUid() {
+    public String getBuyerUid() {
         return buyerUid;
     }
 
-    public void setBuyerUid(Integer buyerUid) {
+    public void setBuyerUid(String buyerUid) {
         this.buyerUid = buyerUid;
     }
 
-    public Timestamp getDatetime() {
+    public LocalDateTime getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(Timestamp datetime) {
+    public void setDatetime(LocalDateTime datetime) {
         this.datetime = datetime;
     }
 

@@ -5,7 +5,7 @@ import fsse2305.eshop.data.entity.ProductEntity;
 import java.math.BigDecimal;
 
 public class ProductByIdResponseData {
-      private int pid;
+      private String pid;
       private String name;
       private String description;
       private String imageUrl;
@@ -21,11 +21,11 @@ public class ProductByIdResponseData {
             this.stockQty = productEntity.getStockQty();
       }
 
-      public int getPid() {
+      public String getPid() {
             return pid;
       }
 
-      public void setPid(int pid) {
+      public void setPid(String pid) {
             this.pid = pid;
       }
 

@@ -1,9 +1,9 @@
 package fsse2305.eshop.exception.transaction;
 
 public class TRANSACTION_NOT_FOUND_EXCEPTION extends Exception{
-    final Integer tid;
+    final String tid;
 
-    public TRANSACTION_NOT_FOUND_EXCEPTION(Integer tid) {
+    public TRANSACTION_NOT_FOUND_EXCEPTION(String tid) {
         this.tid = tid;
     }
 

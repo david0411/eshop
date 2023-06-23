@@ -1,38 +1,40 @@
 package fsse2305.eshop.data.entity;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
-@Entity
-@Table(name = "product")
+@Document(collection = "product")
 public class ProductEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pid;
-    @Column(nullable = false)
+    private String pid;
     private String name;
     private String description;
-    @Column(name = "image_url")
+    @Field(name = "image_url")
     private String imageUrl;
-    @Column(nullable = false)
     private BigDecimal price;
-    @Column(nullable = false)
+    @Field(name = "stock_qty")
     private Integer stockQty;
-    @OneToMany
-    @JoinColumn(name = "pid")
-    private List<CartItemEntity> cartItemEntityList = new ArrayList<>();
 
     public ProductEntity() {
     }
 
-    public Integer getPid() {
+    public ProductEntity(String pid, String name, String description, String imageUrl, BigDecimal price, Integer stockQty) {
+        this.pid = pid;
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.price = price;
+        this.stockQty = stockQty;
+    }
+
+    public String getPid() {
         return pid;
     }
 
-    public void setPid(Integer pid) {
+    public void setPid(String pid) {
         this.pid = pid;
     }
 
@@ -76,4 +78,15 @@ public class ProductEntity {
         this.stockQty = stockQty;
     }
 
+    @Override
+    public String toString() {
+        return "ProductEntity{" +
+                "pid=" + pid +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", price=" + price +
+                ", stockQty=" + stockQty +
+                '}';
+    }
 }

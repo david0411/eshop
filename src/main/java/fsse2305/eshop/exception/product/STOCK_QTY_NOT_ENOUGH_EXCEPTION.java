@@ -1,11 +1,11 @@
 package fsse2305.eshop.exception.product;
 
 public class STOCK_QTY_NOT_ENOUGH_EXCEPTION extends Exception{
-    private final Integer pid;
+    private final String pid;
     private final Integer stockQty;
     private final Integer quantity;
 
-    public STOCK_QTY_NOT_ENOUGH_EXCEPTION(Integer pid, Integer stockQty, Integer quantity) {
+    public STOCK_QTY_NOT_ENOUGH_EXCEPTION(String pid, Integer stockQty, Integer quantity) {
         this.pid = pid;
         this.stockQty = stockQty;
         this.quantity = quantity;

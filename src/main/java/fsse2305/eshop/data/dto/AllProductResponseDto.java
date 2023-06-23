@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 public class AllProductResponseDto {
 
-      private int pid;
+      private String pid;
       private String name;
       @JsonProperty("image_url")
       private String imageUrl;
@@ -23,11 +23,11 @@ public class AllProductResponseDto {
             this.hasStock = allProductResponseData.isHasStock();
       }
 
-      public int getPid() {
+      public String getPid() {
             return pid;
       }
 
-      public void setPid(int pid) {
+      public void setPid(String pid) {
             this.pid = pid;
       }
 
