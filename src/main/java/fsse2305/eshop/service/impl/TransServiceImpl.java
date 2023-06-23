@@ -28,7 +28,7 @@ import java.util.List;
 
 @Service
 public class TransServiceImpl implements TransService {
-    Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+    final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
     private final UserService userService;
     private final ProductService productService;
     private final CartItemService cartItemService;
@@ -54,7 +54,6 @@ public class TransServiceImpl implements TransService {
             if(cartItemEntityList.size() == 0)  {
                 throw new CART_EMPTTY_EXCEPTION();
             }
-            //Add timezone
             Timestamp transactionTime = Timestamp.valueOf(ZonedDateTime.now().toLocalDateTime());
             logger.info("Create transaction. uid:" + uid + " transactionTime:" + transactionTime);
             Integer transResult = transRepository.createTransaction(uid, transactionTime, TransStatus.PREPARE.getCode());

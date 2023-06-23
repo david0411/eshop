@@ -24,7 +24,7 @@ import java.util.List;
 
 @Service
 public class CartItemServiceImpl implements CartItemService {
-    Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+    final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
     private final UserService userService;
     private final ProductService productService;
     private final CartItemRepository cartItemRepository;

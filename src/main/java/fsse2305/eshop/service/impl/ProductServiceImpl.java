@@ -19,8 +19,8 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
-    public ProductRepository productRepository;
+    final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+    public final ProductRepository productRepository;
     public ProductServiceImpl(ProductRepository productRepository)  {
         this.productRepository = productRepository;
     }

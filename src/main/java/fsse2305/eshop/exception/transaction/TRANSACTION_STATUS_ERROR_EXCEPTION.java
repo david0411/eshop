@@ -1,8 +1,8 @@
 package fsse2305.eshop.exception.transaction;
 
 public class TRANSACTION_STATUS_ERROR_EXCEPTION extends Exception{
-    String currStatus;
-    String requiredStatus;
+    private final String currStatus;
+    private final String requiredStatus;
     public TRANSACTION_STATUS_ERROR_EXCEPTION(String currStatus, String requiredStatus) {
         this.currStatus = currStatus;
         this.requiredStatus = requiredStatus;
