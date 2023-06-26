@@ -11,10 +11,10 @@ import java.util.List;
 @Service
 public interface ProductService {
       List<AllProductResponseData> getAllProduct();
-      ProductByIdResponseData getProductById(Integer pid) throws Exception;
+      ProductByIdResponseData getProductByPid(Integer pid) throws Exception;
       UpdateProductResponseData updateProductById(Integer pid, UpdateProductRequestData updateProductRequestData) throws Exception;
 
       ProductEntity getProductEntityByPid(Integer pid)  throws Exception;
 
-      Integer deductProductQtyById(Integer pid, Integer quantity) throws Exception;
+      Integer deductProductQtyByPid(Integer pid, Integer quantity) throws Exception;
 }

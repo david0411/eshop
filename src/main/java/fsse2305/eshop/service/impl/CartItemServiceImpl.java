@@ -37,6 +37,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     public PutCartItemResponseData putCartItem(Integer pid, Integer quantity, FirebaseUserData firebaseUserData) throws Exception {
         try {
+            logger.info("Start put Cart item.");
             if(pid == null || quantity == null || firebaseUserData == null) {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
@@ -67,6 +68,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     public List<GetCartItemResponseData> getCartItem(FirebaseUserData firebaseUserData) throws Exception {
         try {
+            logger.info("Start get Cart item.");
             if(firebaseUserData == null) {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
@@ -85,6 +87,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     public UpdateCartItemQtyResponseData updateCartItemQty(Integer pid, Integer quantity, FirebaseUserData firebaseUserData) throws Exception {
         try {
+            logger.info("Start update Cart item Qty.");
             if(pid == null || quantity == null || firebaseUserData == null) {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
@@ -111,6 +114,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     public DeleteCartItemResponseData deleteCartItem(Integer pid, FirebaseUserData firebaseUserData) throws Exception   {
         try {
+            logger.info("Start delete Cart item.");
             if(pid == null || firebaseUserData == null) {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
@@ -133,6 +137,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     public List<CartItemEntity> getCartItemByUid(Integer uid) throws Exception  {
         try {
+            logger.info("Start get Cart item(Internal).");
             if(uid == null) {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
@@ -146,6 +151,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     public Integer deleteCartItemByUid(Integer uid) throws Exception  {
         try {
+            logger.info("Start delete Cart item(Internal).");
             if(uid == null) {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }

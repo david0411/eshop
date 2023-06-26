@@ -33,7 +33,7 @@ public class ProductApi {
 
     @GetMapping("/public/product/{id}")
     public ProductByIdResponseDto getProductById(@PathVariable Integer id) throws Exception {
-        return new ProductByIdResponseDto(productService.getProductById(id));
+        return new ProductByIdResponseDto(productService.getProductByPid(id));
     }
 
     @PutMapping("admin/product/{id}")

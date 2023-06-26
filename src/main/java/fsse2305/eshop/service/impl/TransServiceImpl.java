@@ -45,22 +45,16 @@ public class TransServiceImpl implements TransService {
 
     public PrepareTransResponseData prepareTrans(FirebaseUserData firebaseUserData) throws Exception{
         try {
-            if(firebaseUserData == null) {
-                throw new DATA_INSUFFICIENT_EXCEPTION();
-            }
+            logger.info("Start prepare transaction.");
+            if(firebaseUserData == null) throw new DATA_INSUFFICIENT_EXCEPTION();
             Integer uid = getUid(firebaseUserData);
             BigDecimal totalAmt = BigDecimal.valueOf(0);
             List<CartItemEntity> cartItemEntityList = cartItemService.getCartItemByUid(uid);
-            if(cartItemEntityList.size() == 0)  {
-                throw new CART_EMPTTY_EXCEPTION();
-            }
-            //Add timezone
+            if(cartItemEntityList.size() == 0) throw new CART_EMPTTY_EXCEPTION();
             Timestamp transactionTime = Timestamp.valueOf(ZonedDateTime.now().toLocalDateTime());
             logger.info("Create transaction. uid:" + uid + " transactionTime:" + transactionTime);
             Integer transResult = transRepository.createTransaction(uid, transactionTime, TransStatus.PREPARE.getCode());
-            if(transResult!=1)  {
-                throw new TRANSACTION_CREATE_FAILED_EXCEPTION();
-            }
+            if(transResult!=1) throw new TRANSACTION_CREATE_FAILED_EXCEPTION();
             logger.info("Get transaction by time. transactionTime:" + transactionTime);
             TransactionEntity transactionEntity = transRepository.getTransactionEntityByTransTime(transactionTime);
             List<TransProductResponseData> transProductResponseDataList = new ArrayList<>();
@@ -79,9 +73,7 @@ public class TransServiceImpl implements TransService {
                         productEntity.getStockQty(),
                         cartItemEntity.getQuantity(),
                         subtotal);
-                if(transProductResult!=1)   {
-                    throw new TRANSACTION_ADD_ITEM_FAILED_EXCEPTION(productEntity.getName());
-                }
+                if(transProductResult!=1) throw new TRANSACTION_ADD_ITEM_FAILED_EXCEPTION(productEntity.getName());
                 TransProductEntity transProductEntity = transProductRepository.getTransactionProductEntityByPidAndTid(cartItemEntity.getPid(), transactionEntity.getTid());
                 transProductResponseDataList.add(
                         new TransProductResponseData(
@@ -102,6 +94,7 @@ public class TransServiceImpl implements TransService {
 
     public GetTransResponseData getTrans(Integer tid, FirebaseUserData firebaseUserData) throws Exception {
         try {
+            logger.info("Start get transaction.");
             if(tid == null || firebaseUserData == null) {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
@@ -132,30 +125,21 @@ public class TransServiceImpl implements TransService {
 
     public PayTransResponseData payTrans(Integer tid, FirebaseUserData firebaseUserData) throws Exception {
         try {
+            logger.info("Start pay transaction.");
             if(tid == null || firebaseUserData == null) {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
             Integer uid = getUid(firebaseUserData);
             logger.info("Get transaction. uid:" + uid + " tid:" + tid);
             TransactionEntity transactionEntity = transRepository.getTransactionEntityByUidAndTid(uid, tid);
-            logger.info("Check transaction status");
-            if(!transactionEntity.getStatus().equals(TransStatus.PREPARE))   {
-                throw new TRANSACTION_STATUS_ERROR_EXCEPTION(transactionEntity.getStatus().getCode(),TransStatus.PREPARE.getCode());
-            }
-            logger.info("Update transaction status. tid:" + tid + " status:" + TransStatus.PAY.getCode());
-            Integer payResult = transRepository.updateTransStatusByUidAndTid(uid, tid, TransStatus.PAY.getCode());
-            if(payResult==1)   {
+            checkTransStatus(transactionEntity,TransStatus.PREPARE);
+            if(updateTransStatus(transactionEntity, TransStatus.PAY)==1)   {
                 for(TransProductEntity transProductEntity: transProductRepository.getTransactionProductEntityByTid(tid))   {
                     logger.info("Deduct stock qty");
-                    Integer deductProductResult = productService.deductProductQtyById(transProductEntity.getPid(), transProductEntity.getQuantity());
+                    Integer deductProductResult = productService.deductProductQtyByPid(transProductEntity.getPid(), transProductEntity.getQuantity());
                     if(deductProductResult==1)  {
-                        logger.info("Check transaction status");
-                        if(!transactionEntity.getStatus().equals(TransStatus.PAY))   {
-                            throw new TRANSACTION_STATUS_ERROR_EXCEPTION(transactionEntity.getStatus().getCode(),TransStatus.PAY.getCode());
-                        }
-                        logger.info("Update transaction status. tid:" + tid + " status:" + TransStatus.PROCESSING.getCode());
-                        Integer processResult = transRepository.updateTransStatusByUidAndTid(uid, tid, TransStatus.PROCESSING.getCode());
-                        if(processResult==1)   {
+                        checkTransStatus(transactionEntity,TransStatus.PAY);
+                        if(updateTransStatus(transactionEntity, TransStatus.PROCESSING)==1)   {
                             return new PayTransResponseData("SUCCESS");
                         }
                     }
@@ -170,19 +154,15 @@ public class TransServiceImpl implements TransService {
 
     public FinishTransResponseData finishTrans(Integer tid, FirebaseUserData firebaseUserData) throws Exception{
         try {
+            logger.info("Start finish transaction.");
             if(tid == null || firebaseUserData == null) {
                 throw new DATA_INSUFFICIENT_EXCEPTION();
             }
             Integer uid = getUid(firebaseUserData);
             logger.info("Get transaction. uid:" + uid + " tid:" + tid);
             TransactionEntity transactionEntity = transRepository.getTransactionEntityByUidAndTid(uid, tid);
-            logger.info("Check transaction status");
-            if(!transactionEntity.getStatus().equals(TransStatus.PROCESSING))   {
-                throw new TRANSACTION_STATUS_ERROR_EXCEPTION(transactionEntity.getStatus().getCode(),TransStatus.PROCESSING.getCode());
-            }
-            logger.info("Update transaction status. tid:" + tid + " status:" + TransStatus.SUCCESS.getCode());
-            Integer result = transRepository.updateTransStatusByUidAndTid(uid, tid, TransStatus.SUCCESS.getCode());
-            if(result==1)   {
+            checkTransStatus(transactionEntity,TransStatus.PROCESSING);
+            if(updateTransStatus(transactionEntity, TransStatus.SUCCESS)==1)   {
                 logger.info("Get transaction product. tid:" + tid);
                 List<TransProductEntity> transProductEntityList = transProductRepository.getTransactionProductEntityByTid(transactionEntity.getTid());
                 List<TransProductResponseData> transProductResponseDataList = new ArrayList<>();
@@ -206,5 +186,22 @@ public class TransServiceImpl implements TransService {
     private Integer getUid(FirebaseUserData firebaseUserData)   {
         logger.info("Get User");
         return userService.getEntityByFirebaseUserData(firebaseUserData).getUid();
+    }
+
+    private void checkTransStatus(TransactionEntity transactionEntity, TransStatus transStatus) throws TRANSACTION_STATUS_ERROR_EXCEPTION {
+        try {
+            logger.info("Check transaction status");
+            if(!transactionEntity.getStatus().equals(transStatus))   {
+                throw new TRANSACTION_STATUS_ERROR_EXCEPTION(transactionEntity.getStatus().getCode(),transStatus.getCode());
+            }
+        }   catch (Exception e) {
+            logger.warn(e.toString());
+            throw e;
+        }
+    }
+
+    private Integer updateTransStatus(TransactionEntity transactionEntity, TransStatus transStatus)  {
+        logger.info("Update transaction status. tid:" + transactionEntity.getTid() + " status:" + transStatus.getCode());
+        return transRepository.updateTransStatusByUidAndTid(transactionEntity.getUserEntity().getUid(), transactionEntity.getTid(), transStatus.getCode());
     }
 }

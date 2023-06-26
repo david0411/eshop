@@ -25,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
     public List<AllProductResponseData> getAllProduct() {
+        logger.info("Start get all product");
         List<AllProductResponseData> allProductResponseDataArrayList = new ArrayList<>();
         for(ProductEntity productEntity: productRepository.getAllProduct()) {
             allProductResponseDataArrayList.add(new AllProductResponseData(productEntity));
@@ -32,12 +33,9 @@ public class ProductServiceImpl implements ProductService {
         return allProductResponseDataArrayList;
     }
 
-    public ProductByIdResponseData getProductById(Integer pid) throws Exception {
+    public ProductByIdResponseData getProductByPid(Integer pid) throws Exception {
         try{
-            ProductEntity productEntity = productRepository.getProductById(pid);
-            if(productEntity == null)   {
-                throw  new PRODUCT_ID_NOT_FOUND_EXCEPTION(pid);
-            }
+            ProductEntity productEntity = productExist(pid);
             return new ProductByIdResponseData(productEntity);
         } catch (PRODUCT_ID_NOT_FOUND_EXCEPTION e)    {
             logger.warn(e.toString());
@@ -47,18 +45,16 @@ public class ProductServiceImpl implements ProductService {
 
     public UpdateProductResponseData updateProductById(Integer pid, UpdateProductRequestData updateProductRequestData) throws Exception {
         try{
-            ProductEntity productEntity = productRepository.getProductById(pid);
-            if (productEntity == null)  {
-                throw  new PRODUCT_ID_NOT_FOUND_EXCEPTION(pid);
-            }
-            return new UpdateProductResponseData(productRepository.updateProductById(
-                      pid,
-                      updateProductRequestData.getName(),
-                      updateProductRequestData.getDescription(),
-                      updateProductRequestData.getImageUrl(),
-                      updateProductRequestData.getPrice(),
-                      updateProductRequestData.getStockQty()
-            ));
+            logger.info("Start update product");
+            productRepository.updateProductById(
+                    pid,
+                    updateProductRequestData.getName(),
+                    updateProductRequestData.getDescription(),
+                    updateProductRequestData.getImageUrl(),
+                    updateProductRequestData.getPrice(),
+                    updateProductRequestData.getStockQty()
+            );
+            return new UpdateProductResponseData(productExist(pid));
         } catch (PRODUCT_ID_NOT_FOUND_EXCEPTION e)    {
             logger.warn(e.toString());
             throw e;
@@ -67,25 +63,18 @@ public class ProductServiceImpl implements ProductService {
 
     public ProductEntity getProductEntityByPid(Integer pid)  throws Exception    {
         try{
-            logger.info("Get Product: " + pid);
-            ProductEntity productEntity = productRepository.getProductById(pid);
-            if(productEntity == null)   {
-                throw  new PRODUCT_ID_NOT_FOUND_EXCEPTION(pid);
-            }
-            return productEntity;
+            logger.info("Start get product.(Internal)");
+            return productExist(pid);
         } catch (PRODUCT_ID_NOT_FOUND_EXCEPTION e)    {
             logger.warn(e.toString());
             throw e;
         }
     }
 
-    public Integer deductProductQtyById(Integer pid, Integer quantity) throws Exception {
+    public Integer deductProductQtyByPid(Integer pid, Integer quantity) throws Exception {
         try{
-            logger.info("Get Product: " + pid);
-            ProductEntity productEntity = productRepository.getProductById(pid);
-            if (productEntity == null)  {
-                throw new PRODUCT_ID_NOT_FOUND_EXCEPTION(pid);
-            }
+            logger.info("Start deduct product Qty.(Internal)");
+            ProductEntity productEntity = productExist(pid);
             if(productEntity.getStockQty()<quantity)    {
                 throw new STOCK_QTY_NOT_ENOUGH_EXCEPTION(pid, productEntity.getStockQty(), quantity);
             }
@@ -96,6 +85,17 @@ public class ProductServiceImpl implements ProductService {
             }
             throw new STOCK_QTY_DEDUCT_FAILED_EXCEPTION(pid);
         } catch (Exception e)    {
+            logger.warn(e.toString());
+            throw e;
+        }
+    }
+
+    public ProductEntity productExist(Integer pid) throws PRODUCT_ID_NOT_FOUND_EXCEPTION {
+        try {
+            logger.info("Start get product Qty.(Internal)");
+            logger.info("Get Product: " + pid);
+            return productRepository.getProductById(pid).orElseThrow(() -> new PRODUCT_ID_NOT_FOUND_EXCEPTION(pid));
+        } catch (Exception e) {
             logger.warn(e.toString());
             throw e;
         }

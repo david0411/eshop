@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends CrudRepository<ProductEntity, Integer> {
 
@@ -15,8 +16,10 @@ public interface ProductRepository extends CrudRepository<ProductEntity, Integer
     List<ProductEntity> getAllProduct();
 
     @Query(value = "SELECT * FROM product WHERE pid=:pid", nativeQuery = true)
-    ProductEntity getProductById(Integer pid);
+    Optional<ProductEntity> getProductById(Integer pid);
 
+    @Modifying
+    @Transactional
     @Query(value = "UPDATE product SET " +
               "name=:name," +
               "description=:description," +
@@ -24,7 +27,7 @@ public interface ProductRepository extends CrudRepository<ProductEntity, Integer
               "price=:price," +
               "stock_qty=:stockQty " +
               "WHERE pid=:pid", nativeQuery = true)
-    ProductEntity updateProductById(Integer pid, String name, String description, String imageUrl, BigDecimal price, Integer stockQty);
+    Integer updateProductById(Integer pid, String name, String description, String imageUrl, BigDecimal price, Integer stockQty);
 
     @Modifying
     @Transactional
