@@ -21,5 +21,5 @@ public interface TransProductRepository extends CrudRepository<TransProductEntit
     TransProductEntity getTransactionProductEntityByPidAndTid(Integer pid, Integer tid);
 
     @Query(value = "SELECT * FROM transaction_product WHERE tid=:tid", nativeQuery = true)
-    List<TransProductEntity> getTransactionProductEntityByTid(int tid);
+    List<TransProductEntity> getTransactionProductEntityByTid(Integer tid);
 }

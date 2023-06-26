@@ -60,5 +60,4 @@ public class TransactionApi {
         }
         return new FinishTransResponseDto(finishTransResponseData, transProductResponseDtoList);
     }
-
 }

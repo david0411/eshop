@@ -1,19 +1,19 @@
 package fsse2305.eshop.data.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "category")
-public class Category {
+public class CategoryEntity {
     @Id
     private Integer catId;
+    @ManyToOne
+    @JoinColumn(name = "u_cat_id")
+    private CategoryEntity categoryEntity;
     @Column(nullable = false)
     private String catName;
 
-    public Category() {
+    public CategoryEntity() {
     }
 
     public Integer getCatId() {

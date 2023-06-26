@@ -2,10 +2,7 @@ package fsse2305.eshop.api;
 
 import fsse2305.eshop.data.data.AllProductResponseData;
 import fsse2305.eshop.data.data.UpdateProductRequestData;
-import fsse2305.eshop.data.dto.AllProductResponseDto;
-import fsse2305.eshop.data.dto.ProductByIdResponseDto;
-import fsse2305.eshop.data.dto.UpdateProductRequestDto;
-import fsse2305.eshop.data.dto.UpdateProductResponseDto;
+import fsse2305.eshop.data.dto.*;
 import fsse2305.eshop.service.ProductService;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +37,10 @@ public class ProductApi {
     public UpdateProductResponseDto updateProductById(@PathVariable Integer id, @RequestBody UpdateProductRequestDto updateProductRequestDto, JwtAuthenticationToken
             jwtToken) throws Exception    {
         return new UpdateProductResponseDto(productService.updateProductById(id, new UpdateProductRequestData(updateProductRequestDto)));
+    }
+
+    @GetMapping("public/product/{category}")
+    public List<ProductByCategoryResponseDto> getProductByCategory(@PathVariable Integer category) {
+        return productService.getProductByCategory(category).stream().map(ProductByCategoryResponseDto::new).toList();
     }
 }

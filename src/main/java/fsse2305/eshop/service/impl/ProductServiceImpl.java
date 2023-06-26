@@ -1,14 +1,12 @@
 package fsse2305.eshop.service.impl;
 
-import fsse2305.eshop.exception.product.STOCK_QTY_DEDUCT_FAILED_EXCEPTION;
-import fsse2305.eshop.exception.product.STOCK_QTY_NOT_ENOUGH_EXCEPTION;
-import fsse2305.eshop.repository.ProductRepository;
-import fsse2305.eshop.data.data.AllProductResponseData;
-import fsse2305.eshop.data.data.ProductByIdResponseData;
-import fsse2305.eshop.data.data.UpdateProductRequestData;
-import fsse2305.eshop.data.data.UpdateProductResponseData;
+import fsse2305.eshop.data.data.*;
 import fsse2305.eshop.data.entity.ProductEntity;
 import fsse2305.eshop.exception.product.PRODUCT_ID_NOT_FOUND_EXCEPTION;
+import fsse2305.eshop.exception.product.STOCK_QTY_DEDUCT_FAILED_EXCEPTION;
+import fsse2305.eshop.exception.product.STOCK_QTY_NOT_ENOUGH_EXCEPTION;
+import fsse2305.eshop.repository.ProductCategoryRepository;
+import fsse2305.eshop.repository.ProductRepository;
 import fsse2305.eshop.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +19,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
     public ProductRepository productRepository;
+    public ProductCategoryRepository productCategoryRepository;
     public ProductServiceImpl(ProductRepository productRepository)  {
         this.productRepository = productRepository;
     }
@@ -99,5 +98,11 @@ public class ProductServiceImpl implements ProductService {
             logger.warn(e.toString());
             throw e;
         }
+    }
+
+    public List<ProductByCategoryResponseData> getProductByCategory(Integer catId)  {
+        logger.info("Start get product by category.");
+        return productCategoryRepository.getAllByCatId(catId).stream().map(x -> new ProductByCategoryResponseData(productRepository.getProductById(x).get())).toList();
+
     }
 }
