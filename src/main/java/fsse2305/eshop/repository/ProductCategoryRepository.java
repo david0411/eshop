@@ -9,4 +9,5 @@ import java.util.List;
 public interface ProductCategoryRepository extends CrudRepository<ProductCategoryEntity, Integer> {
     @Query(value = "SELECT pid FROM product_cat where cat_id =:catId", nativeQuery = true)
     List<Integer> getAllByCatId(Integer catId);
+
 }

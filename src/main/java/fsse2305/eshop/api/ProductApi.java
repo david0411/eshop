@@ -39,8 +39,8 @@ public class ProductApi {
         return new UpdateProductResponseDto(productService.updateProductById(id, new UpdateProductRequestData(updateProductRequestDto)));
     }
 
-    @GetMapping("public/product/{category}")
-    public List<ProductByCategoryResponseDto> getProductByCategory(@PathVariable Integer category) {
-        return productService.getProductByCategory(category).stream().map(ProductByCategoryResponseDto::new).toList();
+    @GetMapping("public/product/category/{cat_id}")
+    public List<ProductByCategoryResponseDto> getProductByCategory(@PathVariable Integer cat_id) {
+        return productService.getProductByCategory(cat_id).stream().map(ProductByCategoryResponseDto::new).toList();
     }
 }

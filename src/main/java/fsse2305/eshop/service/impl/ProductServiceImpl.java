@@ -5,6 +5,7 @@ import fsse2305.eshop.data.entity.ProductEntity;
 import fsse2305.eshop.exception.product.PRODUCT_ID_NOT_FOUND_EXCEPTION;
 import fsse2305.eshop.exception.product.STOCK_QTY_DEDUCT_FAILED_EXCEPTION;
 import fsse2305.eshop.exception.product.STOCK_QTY_NOT_ENOUGH_EXCEPTION;
+import fsse2305.eshop.repository.CategoryRepository;
 import fsse2305.eshop.repository.ProductCategoryRepository;
 import fsse2305.eshop.repository.ProductRepository;
 import fsse2305.eshop.service.ProductService;
@@ -20,9 +21,14 @@ public class ProductServiceImpl implements ProductService {
     Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
     public ProductRepository productRepository;
     public ProductCategoryRepository productCategoryRepository;
-    public ProductServiceImpl(ProductRepository productRepository)  {
+    public CategoryRepository categoryRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
+        this.productCategoryRepository = productCategoryRepository;
+        this.categoryRepository = categoryRepository;
     }
+
     public List<AllProductResponseData> getAllProduct() {
         logger.info("Start get all product");
         List<AllProductResponseData> allProductResponseDataArrayList = new ArrayList<>();
@@ -102,7 +108,14 @@ public class ProductServiceImpl implements ProductService {
 
     public List<ProductByCategoryResponseData> getProductByCategory(Integer catId)  {
         logger.info("Start get product by category.");
+        if (getSubCat(catId).size()!=0) {
+            //include sub cat item
+        }
         return productCategoryRepository.getAllByCatId(catId).stream().map(x -> new ProductByCategoryResponseData(productRepository.getProductById(x).get())).toList();
+    }
 
+    public List<Integer> getSubCat(Integer catId) {
+        logger.info("Start get sub category.");
+        return categoryRepository.getSubCat(catId);
     }
 }
