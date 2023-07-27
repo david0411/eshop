@@ -138,7 +138,7 @@ public class TransServiceImpl implements TransService {
                     logger.info("Deduct stock qty");
                     Integer deductProductResult = productService.deductProductQtyByPid(transProductEntity.getPid(), transProductEntity.getQuantity());
                     if(deductProductResult==1)  {
-                        checkTransStatus(transactionEntity,TransStatus.PAY);
+                        //checkTransStatus(transactionEntity,TransStatus.PAY);
                         if(updateTransStatus(transactionEntity, TransStatus.PROCESSING)==1)   {
                             return new PayTransResponseData("SUCCESS");
                         }

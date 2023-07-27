@@ -1,5 +1,6 @@
 package fsse2305.eshop.api;
 
+import fsse2305.eshop.config.EnvConfig;
 import fsse2305.eshop.data.data.AllProductResponseData;
 import fsse2305.eshop.data.data.UpdateProductRequestData;
 import fsse2305.eshop.data.dto.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = {EnvConfig.devConfig, EnvConfig.prodConfig}, maxAge = 3600)
 @RestController
 public class ProductApi {
 
@@ -18,6 +20,7 @@ public class ProductApi {
     public ProductApi(ProductService productService)    {
         this.productService = productService;
     }
+
     @GetMapping("/public/product")
     public List<AllProductResponseDto> getAllProduct()   {
         List<AllProductResponseDto> allProductResponseDtoList = new ArrayList<>();
@@ -40,7 +43,7 @@ public class ProductApi {
     }
 
     @GetMapping("public/product/category/{cat_id}")
-    public List<ProductByCategoryResponseDto> getProductByCategory(@PathVariable Integer cat_id) {
+    public List<ProductByCategoryResponseDto> getProductByCategory(@PathVariable Integer cat_id) throws Exception {
         return productService.getProductByCategory(cat_id).stream().map(ProductByCategoryResponseDto::new).toList();
     }
 }

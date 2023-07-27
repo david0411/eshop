@@ -15,5 +15,5 @@ public interface ProductService {
 
       Integer deductProductQtyByPid(Integer pid, Integer quantity) throws Exception;
 
-      List<ProductByCategoryResponseData> getProductByCategory(Integer catId);
+      List<ProductByCategoryResponseData> getProductByCategory(Integer catId) throws Exception;
 }

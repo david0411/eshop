@@ -106,12 +106,32 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    public List<ProductByCategoryResponseData> getProductByCategory(Integer catId)  {
-        logger.info("Start get product by category.");
-        if (getSubCat(catId).size()!=0) {
-            //include sub cat item
+    public List<ProductByCategoryResponseData> getProductByCategory(Integer catId) throws Exception {
+        try {
+            logger.info("Start get product by category.");
+            boolean haveSubCat = false;
+            List<Integer> catList = new ArrayList<>();
+            List<Integer> subCat = new ArrayList<>();
+            catList.add(catId);
+            logger.info(catList.toString());
+            for(Integer cat: catList) {
+                subCat.addAll(getSubCat(cat));
+                if (subCat.size() > 0) {
+                    haveSubCat = true;
+                }
+            }
+            if (haveSubCat) {
+                catList.addAll(subCat);
+            }
+            List<ProductByCategoryResponseData> productByCategoryResponseDataList = new ArrayList<>();
+            for(Integer cat: catList)   {
+                productByCategoryResponseDataList.addAll(productCategoryRepository.getAllByCatId(cat).stream().map(x -> new ProductByCategoryResponseData(productRepository.getProductById(x).get())).toList());
+            }
+            return productByCategoryResponseDataList;
+        } catch (Exception e) {
+            logger.warn(e.toString());
+            throw e;
         }
-        return productCategoryRepository.getAllByCatId(catId).stream().map(x -> new ProductByCategoryResponseData(productRepository.getProductById(x).get())).toList();
     }
 
     public List<Integer> getSubCat(Integer catId) {
