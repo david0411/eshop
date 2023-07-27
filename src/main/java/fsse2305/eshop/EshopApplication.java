@@ -31,6 +31,18 @@ public class EshopApplication {
                         .allowedHeaders("Authorization")
                         .allowedMethods("*")
                         .maxAge(3600);
+                registry.addMapping("/public/**")
+                        .allowedOrigins(EnvConfig.devConfig, EnvConfig.prodConfig)
+                        .allowCredentials(true)
+                        .allowedHeaders("Authorization")
+                        .allowedMethods("*")
+                        .maxAge(3600);
+                registry.addMapping("/transaction/**")
+                        .allowedOrigins(EnvConfig.devConfig, EnvConfig.prodConfig)
+                        .allowCredentials(true)
+                        .allowedHeaders("Authorization")
+                        .allowedMethods("*")
+                        .maxAge(3600);
             }
         };
     }

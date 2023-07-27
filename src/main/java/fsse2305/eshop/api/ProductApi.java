@@ -1,6 +1,5 @@
 package fsse2305.eshop.api;
 
-import fsse2305.eshop.config.EnvConfig;
 import fsse2305.eshop.data.data.AllProductResponseData;
 import fsse2305.eshop.data.data.UpdateProductRequestData;
 import fsse2305.eshop.data.dto.*;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = {EnvConfig.devConfig, EnvConfig.prodConfig}, maxAge = 3600)
 @RestController
 public class ProductApi {
 

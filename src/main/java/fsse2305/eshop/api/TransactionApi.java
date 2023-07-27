@@ -1,6 +1,5 @@
 package fsse2305.eshop.api;
 
-import fsse2305.eshop.config.EnvConfig;
 import fsse2305.eshop.data.data.FinishTransResponseData;
 import fsse2305.eshop.data.data.GetTransResponseData;
 import fsse2305.eshop.data.data.PrepareTransResponseData;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = {EnvConfig.devConfig, EnvConfig.prodConfig}, maxAge = 3600)
 @RestController
 @RequestMapping("/transaction")
 public class TransactionApi {
