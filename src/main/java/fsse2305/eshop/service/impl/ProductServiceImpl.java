@@ -116,7 +116,7 @@ public class ProductServiceImpl implements ProductService {
             logger.info(catList.toString());
             for(Integer cat: catList) {
                 subCat.addAll(getSubCat(cat));
-                if (subCat.size() > 0) {
+                if (!subCat.isEmpty()) {
                     haveSubCat = true;
                 }
             }

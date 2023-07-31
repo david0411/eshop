@@ -50,7 +50,7 @@ public class TransServiceImpl implements TransService {
             Integer uid = getUid(firebaseUserData);
             BigDecimal totalAmt = BigDecimal.valueOf(0);
             List<CartItemEntity> cartItemEntityList = cartItemService.getCartItemByUid(uid);
-            if(cartItemEntityList.size() == 0) throw new CART_EMPTTY_EXCEPTION();
+            if(cartItemEntityList.isEmpty()) throw new CART_EMPTTY_EXCEPTION();
             Timestamp transactionTime = Timestamp.valueOf(ZonedDateTime.now().toLocalDateTime());
             logger.info("Create transaction. uid:" + uid + " transactionTime:" + transactionTime);
             Integer transResult = transRepository.createTransaction(uid, transactionTime, TransStatus.PREPARE.getCode());
